@@ -1,8 +1,9 @@
 import { useState } from "react";
-import DefaultLayout from "../layout/DefaultLayout";
 import { useAuth } from "../auth/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthResponse, AuthResponseError } from "../types/types";
+import "../css/login.css";
+import Layout from "../components/layout";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -10,9 +11,10 @@ export default function Login() {
   const [errorResponse, setErrorResponse] = useState("");
 
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  function handleChange(e: React.ChangeEvent) {
-    const { name, value } = e.target as HTMLInputElement;
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
     if (name === "username") {
       setUsername(value);
     }
@@ -23,54 +25,79 @@ export default function Login() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // auth.setIsAuthenticated(true);
     try {
       const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
+  
       if (response.ok) {
         const json = (await response.json()) as AuthResponse;
-        console.log(json);
-
         if (json.body.accessToken && json.body.refreshToken) {
           auth.saveUser(json);
+  
+          const userRole = json.body.role;
+          const dashboardRoutes: Record<string, string> = {
+            admin: "/admin/dashboard",
+            user: "/user/dashboard",
+            recepcionist: "/recepcionist/dashboard",
+            doctor: "/doctor/dashboard",
+          };
+  
+          const redirectTo = dashboardRoutes[userRole];
+          if (redirectTo) {
+            navigate(redirectTo);
+          } else {
+            console.log("Rol de usuario desconocido:", userRole);
+            setErrorResponse("Rol de usuario no reconocido.");
+          }
         }
       } else {
         const json = (await response.json()) as AuthResponseError;
-
         setErrorResponse(json.body.error);
       }
     } catch (error) {
       console.log(error);
+      setErrorResponse("Ocurrió un error al intentar iniciar sesión.");
     }
   }
-  if (auth.isAuthenticated) {
-    return <Navigate to="/dashboard" />;
-  }
-  return (
-    <DefaultLayout>
-      <form onSubmit={handleSubmit} className="form">
-        <h1>Login</h1>
-        {!!errorResponse && <div className="errorMessage">{errorResponse}</div>}
-        <label>Username</label>
-        <input
-          name="username"
-          type="text"
-          onChange={handleChange}
-          value={username}
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          onChange={handleChange}
-          value={password}
-        />
+  
 
-        <button>Login</button>
-      </form>
-    </DefaultLayout>
+ 
+  
+
+ 
+  return (
+    <>
+     <Layout>
+      <div className="login-container">
+        <form onSubmit={handleSubmit} className="login-form">
+          <h1>Login</h1>
+          {!!errorResponse && <div className="error-message">{errorResponse}</div>}
+          <label>Username</label>
+          <input
+            name="username"
+            type="text"
+            onChange={handleChange}
+            value={username}
+          />
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            value={password}
+          />
+          <button type="submit" className="navbar-login-button">
+            Iniciar sesión
+          </button>
+        </form>
+      </div>
+    </Layout>
+    
+    </>
+   
+    
   );
 }
