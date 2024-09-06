@@ -31,27 +31,26 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-  
+
       if (response.ok) {
         const json = (await response.json()) as AuthResponse;
         if (json.body.accessToken && json.body.refreshToken) {
           auth.saveUser(json);
-  
-          const userRole = json.body.role;
-          const dashboardRoutes: Record<string, string> = {
-            admin: "/admin/dashboard",
-            user: "/user/dashboard",
-            recepcionist: "/recepcionist/dashboard",
-            doctor: "/doctor/dashboard",
-          };
-  
-          const redirectTo = dashboardRoutes[userRole];
-          if (redirectTo) {
-            navigate(redirectTo);
-          } else {
-            console.log("Rol de usuario desconocido:", userRole);
-            setErrorResponse("Rol de usuario no reconocido.");
-          }
+
+          // const userRole = json.body.role;
+          // const dashboardRoutes: Record<string, string> = {
+          //   admin: "/admin/dashboard",
+          //   user: "/user/dashboard",
+          //   recepcionist: "/recepcionist/dashboard",
+          //   doctor: "/doctor/dashboard",
+          // };
+
+          // const redirectTo = dashboardRoutes[userRole];
+          // if (redirectTo) {
+          //   navigate(redirectTo);
+          // } else {
+          //   navigate("/Patient/dashboard");
+          // }
         }
       } else {
         const json = (await response.json()) as AuthResponseError;
@@ -62,15 +61,13 @@ export default function Login() {
       setErrorResponse("Ocurrió un error al intentar iniciar sesión.");
     }
   }
-  
 
- 
-  
+  if (auth.isAuthenticated) {
+    return <Navigate to="/Patient/dashboard" />;
+  }
 
- 
   return (
-    <>
-     <Layout>
+    <Layout>
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
           <h1>Login</h1>
@@ -95,9 +92,5 @@ export default function Login() {
         </form>
       </div>
     </Layout>
-    
-    </>
-   
-    
   );
 }
