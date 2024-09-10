@@ -59,7 +59,7 @@ const PrincipalPage: React.FC = () => {
           </ul>
 
           <div className="nav__buttons">
-            <a href="#" className="nav__button--login">Iniciar sesión</a>
+            <a href="/login" className="nav__button--login">Iniciar sesión</a>
             <a href="#" className="nav__button--register">Registrarse</a>
           </div>
 
