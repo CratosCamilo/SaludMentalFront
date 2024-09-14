@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DefaultLayout from "../Layout/defaultLayout";
 import { useAuth } from "../auth/AuthProvider";
 import { Form, Navigate, useNavigate } from "react-router-dom";
 import { AuthResponse, AuthResponseError } from "../types/types"
@@ -46,7 +45,7 @@ export default function Signup() {
   }
 
   return (
-    <DefaultLayout>
+    
       <form onSubmit={handleSubmit} className="form">
         <h1>Signup</h1>
         {!!errorResponse && <div className="errorMessage">{errorResponse}</div>}
@@ -74,6 +73,6 @@ export default function Signup() {
 
         <button>Create account</button>
       </form>
-    </DefaultLayout>
+    
   );
 }
