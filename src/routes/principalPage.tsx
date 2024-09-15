@@ -40,10 +40,10 @@ const PrincipalPage: React.FC = () => {
       <header className="hero">
         <nav className="nav__container">
           <div className="nav-logo">
-            <img src="src\images\logo3.png" alt="Logo" className="navbar-logo" />
+            <img src="../images/logo3.png" alt="Logo" className="navbar-logo" />
           </div>
 
-          <ul className="nav__link nav__link--menu">
+          <ul className="nav_link nav_link--menu">
             <li className="nav__items">
               <a href="#" className="nav__links">Inicio</a>
             </li>
@@ -59,12 +59,12 @@ const PrincipalPage: React.FC = () => {
           </ul>
 
           <div className="nav__buttons">
-            <a href="login.tsx" className="nav__button--login">Iniciar sesión</a>
+            <a href="/login" className="nav__button--login">Iniciar sesión</a>
             <a href="#" className="nav__button--register">Registrarse</a>
           </div>
 
           <div>
-            <img src="src\images\fondo.jpg" alt="Imagen" className="nav__img" />
+            <img src="./images/fondo.jpg" alt="Imagen" className="nav__img" />
           </div>
         </nav>
 
@@ -126,7 +126,7 @@ const PrincipalPage: React.FC = () => {
               ref={buttonBeforeRef}
             />
 
-            <section className="professionals__body professionals__body--show" data-id="1" ref={(el) => el && slidersRef.current.push(el)}>
+            <section className="professionals_body professionals_body--show" data-id="1" ref={(el) => el && slidersRef.current.push(el)}>
               <div className="professionals__texts">
                 <h2 className="subtitle">Caudia Mendoza</h2>
                 <h1 className="professionals__course">Terapeuta familiar</h1>

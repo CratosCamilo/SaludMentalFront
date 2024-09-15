@@ -1,5 +1,6 @@
 export interface AuthResponse {
     body: {
+        role: any;
         user: User;
         accessToken: string;
         refreshToken: string;

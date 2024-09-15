@@ -1,8 +1,32 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import "./navbar.css"; // Archivo CSS para los estilos
+import { useAuth } from "../auth/AuthProvider";
+import { API_URL } from "../auth/authConstants";
+
+
 
 const Navbar: React.FC = () => {
+  const auth = useAuth();
+
+  async function handleSignOut(e: MouseEvent) {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${API_URL}/signout`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.getRefreshToken()}`,
+        },
+      });
+      if (response.ok) {
+        auth.signout();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -23,7 +47,7 @@ const Navbar: React.FC = () => {
         </li>
       </ul>
       <div className="navbar-right">
-        <Link to="/login" className="navbar-login-button">
+        <Link to="#" className="navbar-login-button" onClick={handleSignOut}>
           Cerrar sesión
         </Link>
       </div>

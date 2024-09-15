@@ -1,22 +1,22 @@
 .footer {
-    background-color: #acf4ff; 
-    color: #606060; 
-    text-align: center;
-    padding: 20px;
-    width: 100%;
-   
-  }
-  
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto; 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .footer-text {
-    margin: 0;
-    font-size: 14px;
-  }
-  
+  background-color: #ffffff; 
+  color: #606060; 
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  position: absolute; /* O absoluto si es necesario para estar en el fondo */
+  bottom: 0; /* Asegúrate de que esté al final */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 14px;
+}
