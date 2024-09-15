@@ -1,69 +1,138 @@
-/* Estilo general para el dashboard */
-.welcome{
-    background-color: #f7f7f7;
-}
-h4 {
+.Welcome {
     text-align: center;
-    font-size: 28px;
-    color: #333333;
-    margin-top: 20px;
-}
-
-/* Contenedor general */
-.dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #f4f8fb;
-    min-height: 80vh;
-}
-
-/* Estilo para cada botón */
-.Schedule_an_appointment,
-.Medical_history,
-.Personal_data,
-.Update_personal_data,
-.Outstanding_invoices {
-    display: block;
-    text-align: center;
-    padding: 15px 30px;
-    background-color: #72ecff; /* Mismo color de fondo */
-    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f900;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 500px;
+  }
+  
+  .dashboard-button {
+    background-color: #fff;
+    padding: 20px 30px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .dashboard-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .dashboard-button a {
     text-decoration: none;
-    border-radius: 20px;
+    color: #337ab7;
+    transition: color 0.3s ease;
+  }
+  
+  .dashboard-button a:hover {
+    color: #23527c;
+  }
+  
+  .dashboard-button h5 {
+    margin-top: 0;
     font-size: 18px;
     font-weight: bold;
-    cursor: pointer;
-    font-family: monserrat, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
-    width: 250px;
-    border: none;
-    margin: 10px; /* Espaciado entre los botones */
-}
-
-.Schedule_an_appointment:hover,
-.Medical_history:hover,
-.Personal_data:hover,
-.Update_personal_data:hover,
-.Outstanding_invoices:hover {
-    background-color: #f1f1f1; /* Color al pasar el cursor */
-    color: #333333; /* Cambia el color del texto al pasar el cursor */
-    box-shadow: 0 6px 8px rgba(0, 123, 255, 0.3);
-}
-
-/* Ajuste de diseño para pantallas pequeñas */
-@media (max-width: 768px) {
+    color: #333;
+  }
+  
+  .dashboard-button p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .Schedule_an_appointment, 
+  .Medical_history, 
+  .Personal_data, 
+  .Update_personal_data, 
+  .Outstanding_invoices {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 8px;
+      text-align: center;
+      background-color: #ffffff; /* color de fondo */
+      color: rgb(82, 82, 82); /* color del texto */
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  
+  /* Estilo al hacer hover sobre los botones */
+  .Schedule_an_appointment:hover,
+  .Medical_history:hover,
+  .Personal_data:hover,
+  .Update_personal_data:hover,
+  .Outstanding_invoices:hover {
+      background-color:  #80b0b7;
+  }
+  
+  /* Estilo al hacer clic */
+ /* .Schedule_an_appointment:active,
+  .Medical_history:active,
+  .Personal_data:active,
+  .Update_personal_data:active,
+  .Outstanding_invoices:active {
+      background-color: #003f7f;
+  }
+  */
+  
+  /* Animación para los botones */
+  .dashboard-button {
+    animation: fade-in 0.5s ease;
+  }
+  
+  .dashboard-button:hover {
+    animation: pulse 0.5s ease;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
     .dashboard-container {
-        flex-direction: column;
+      grid-template-columns: 1fr;
     }
-    .Schedule_an_appointment,
-    .Medical_history,
-    .Personal_data,
-    .Update_personal_data,
-    .Outstanding_invoices {
-        width: 100%;
+    .dashboard-button {
+      margin-bottom: 20px;
     }
-}
+  }

@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-          <img src="images/logo3.png" alt="Logo" className="navbar-logo" />
+          <img src="src\assets\images\logo3.png" alt="Logo" className="navbar-logo" />
       </div>
       <ul className="navbar-links">
         <li>

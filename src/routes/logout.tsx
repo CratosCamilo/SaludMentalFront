@@ -46,7 +46,7 @@ export default function Signup() {
   }
 
   return (
-    <DefaultLayout>
+    
       <form onSubmit={handleSubmit} className="form">
         <h1>Signup</h1>
         {!!errorResponse && <div className="errorMessage">{errorResponse}</div>}
@@ -74,6 +74,6 @@ export default function Signup() {
 
         <button>Create account</button>
       </form>
-    </DefaultLayout>
+    
   );
 }
