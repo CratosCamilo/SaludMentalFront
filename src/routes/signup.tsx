@@ -89,7 +89,7 @@ export default function Signup() {
   }
 
   return (
-    <Layout>
+    
       <div className="signup-container">
         {isRegistered ? (
           <div className="success-message">
@@ -172,6 +172,6 @@ export default function Signup() {
           </form>
         )}
       </div>
-    </Layout>
+     
   );
 }
