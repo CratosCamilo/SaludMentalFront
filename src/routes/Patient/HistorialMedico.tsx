@@ -22,24 +22,21 @@ const HistorialMedico = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Corregir el tipo del parámetro 'e'
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Corregir el tipo del parámetro 'date'
+
   const handleDateChange = (date : Date | null ) => {
     setFormData({ ...formData, date  });
   };
 
-  // Corregir el tipo del parámetro 'e'
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      // Hacer una llamada a la API con el ID del paciente y la fecha
       const response = await fetch(`${API_URL}/AQUI_SE_CAMBIA_EL_ENDPOINT_Y_SE_PONE_EL_DEL_BACKEND/${formData.patientId}/${formData.date}`);
 
       if (!response.ok) {
@@ -47,8 +44,8 @@ const HistorialMedico = () => {
       }
       
       const data = await response.json();
-      setHistory(data);  // Actualiza el historial con los datos obtenidos
-    } catch (error: any) {  // Especificar 'any' para 'error'
+      setHistory(data);  
+    } catch (error: any) {  
       setError(error.message);
     } finally {
       setLoading(false);
