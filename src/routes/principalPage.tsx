@@ -1,7 +1,53 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../css/principalPage.css";
+import { useAuth } from "../auth/AuthProvider";
+import { Navigate, useNavigate } from 'react-router-dom';
+
+const professionals = [
+  {
+    id: 1,
+    name: "Claudia Mendoza",
+    title: "Terapeuta Familiar",
+    review: "En nuestra clínica, los terapeutas familiares ayudan a mejorar la comunicación y resolver conflictos entre los miembros de la familia. A través de sesiones de terapia, brindan apoyo para fortalecer las relaciones y promover el bienestar emocional de toda la familia.",
+    image: "images/CLAU.jfif",
+  },
+  {
+    id: 2,
+    name: "Daniel Reyes",
+    title: "Psiquiatra",
+    review: "En nuestra clínica, los psiquiatras son médicos especializados en el diagnóstico, tratamiento y prevención de trastornos mentales y emocionales. Utilizan una combinación de terapias, incluyendo la medicación y el asesoramiento, para ayudar a los pacientes a mejorar su salud mental y su bienestar general.",
+    image: "images/Da.jpg",
+  },
+  {
+    id: 3,
+    name: "Luis Rojas",
+    title: "Psicólogo",
+    review: "Los psicólogos son profesionales especializados en ayudar a las personas a entender y manejar sus emociones y comportamientos. Utilizan diversas técnicas terapéuticas basadas en la evidencia para abordar problemas emocionales y mentales, apoyando a los pacientes en su camino hacia el bienestar y una mejor calidad de vida.",
+    image: "images/lu.jpg",
+  },
+  {
+    id: 4,
+    name: "Gloria Carrascal",
+    title: "Psicóloga",
+    review: "Especialista en salud mental que se centra en comprender el comportamiento humano y los procesos mentales. Utiliza técnicas de terapia para ayudar a las personas a enfrentar problemas como la ansiedad, la depresión, el estrés y otros desafíos emocionales, proporcionando apoyo y orientación para mejorar su calidad de vida.",
+    image: "images/Glo.jpg",
+  }
+];
 
 const PrincipalPage: React.FC = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [epsType, setEpsType] = useState("sura");
+  const [errorResponse, setErrorResponse] = useState("");
+
+  const auth = useAuth();
+  const navigate = useNavigate();
   const slidersRef = useRef<HTMLDivElement[]>([]);
   const buttonNextRef = useRef<HTMLImageElement | null>(null);
   const buttonBeforeRef = useRef<HTMLImageElement | null>(null);
@@ -17,9 +63,7 @@ const PrincipalPage: React.FC = () => {
 
     const changePosition = (add: number) => {
       sliders[currentIndex].classList.remove('professionals__body--show');
-
       currentIndex = (currentIndex + add + sliders.length) % sliders.length;
-
       sliders[currentIndex].classList.add('professionals__body--show');
     };
 
@@ -35,46 +79,197 @@ const PrincipalPage: React.FC = () => {
     };
   }, []);
 
+  const handleLoginClick = () => {
+    setShowLoginModal(true);
+  };
+
+  const handleRegisterClick = () => {
+    setShowRegisterModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
+    setShowRegisterModal(false);
+  };
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:3000/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        auth.saveUser(json);
+        navigate("/Patient/dashboard");
+      } else {
+        const json = await response.json();
+        setErrorResponse(json.body.error);
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorResponse("Ocurrió un error al intentar iniciar sesión.");
+    }
+  };
+
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:3000/api/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, name, lastName, idNumber, address, epsType }),
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        auth.saveUser(json);
+        navigate("/Patient/dashboard");
+      } else {
+        const json = await response.json();
+        setErrorResponse(json.body.error);
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorResponse("Ocurrió un error al intentar registrarse.");
+    }
+  };
+
+  if (auth.isAuthenticated) {
+    return <Navigate to="/Patient/dashboard" />;
+  }
+
   return (
     <>
       <header className="hero">
         <nav className="nav__container">
           <div className="nav-logo">
-            <img src="../images/logo3.png" alt="Logo" className="navbar-logo" />
+            <img src="../images/logo333.png" alt="Logo" className="navbar-logo" />
           </div>
-
-          <ul className="nav_link nav_link--menu">
-            <li className="nav__items">
-              <a href="#" className="nav__links">Inicio</a>
-            </li>
-            <li className="nav__items">
-              <a href="#" className="nav__links">Agendar cita</a>
-            </li>
-            <li className="nav__items">
-              <a href="#" className="nav__links">Sobre nosotros</a>
-            </li>
-            <li className="nav__items">
-              <a href="#" className="nav__links">Nuestros servicios</a>
-            </li>
+          <ul className="nav__link">
+            <li className="nav_items"><a href="#" className="nav_links">Inicio</a></li>
+            <li className="nav_items"><a href="#" className="nav_links">Agendar cita</a></li>
+            <li className="nav_items"><a href="#" className="nav_links">Sobre nosotros</a></li>
+            <li className="nav_items"><a href="#" className="nav_links">Nuestros servicios</a></li>
           </ul>
-
           <div className="nav__buttons">
-            <a href="/login" className="nav__button--login">Iniciar sesión</a>
-            <a href="#" className="nav__button--register">Registrarse</a>
+            <a href="#" className="nav__button--login" onClick={handleLoginClick}>Iniciar sesión</a>
+            <a href="#" className="nav__button--register" onClick={handleRegisterClick}>Registrarse</a>
           </div>
-
           <div>
             <img src="./images/fondo.jpg" alt="Imagen" className="nav__img" />
           </div>
         </nav>
-
         <section className="hero__container container">
           <h1 className="hero__title">Bienvenido a un espacio de apoyo y comprensión</h1>
           <p className="hero__paragraph">
-            En nuestra unidad de salud mental-Aurea, estamos aquí para acompañarte en cada paso hacia el bienestar, porque tu salud mental es tan importante como tu salud física.
+            En nuestra unidad de salud mental-Aurea, estamos aquí para acompañarte en cada paso hacia el bienestar.
           </p>
         </section>
       </header>
+
+      {showLoginModal && (
+        <div className="modal">
+          <div className="modal__content">
+            <span className="close" onClick={handleCloseModal}>&times;</span>
+            <h2>Iniciar sesión</h2>
+            <form onSubmit={handleLoginSubmit}>
+              <div className="form-group">
+                <label htmlFor="username">Usuario:</label>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Contraseña:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="login-button">Iniciar sesión</button>
+              {errorResponse && <p className="error">{errorResponse}</p>}
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showRegisterModal && (
+        <div className="modal">
+          <div className="modal__content">
+            <span className="close" onClick={handleCloseModal}>&times;</span>
+            <h2>Registrarse</h2>
+            <form onSubmit={handleRegisterSubmit}>
+              <div className="form-group">
+                <label htmlFor="idNumber">Número de identificación:</label>
+                <input
+                  type="text"
+                  id="idNumber"
+                  value={idNumber}
+                  onChange={(e) => setIdNumber(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="name">Nombre:</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="lastName">Apellidos:</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="address">Dirección:</label>
+                <input
+                  type="text"
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="epsType">Tipo de EPS:</label>
+                <select
+                  id="epsType"
+                  value={epsType}
+                  onChange={(e) => setEpsType(e.target.value)}
+                  required
+                >
+                  <option value="sura">Sura</option>
+                  <option value="salud">Salud</option>
+                  <option value="sanitas">Sanitas</option>
+                  <option value="particular">Particular</option>
+                </select>
+              </div>
+              <button type="submit" className="register-button">Registrarse</button>
+              {errorResponse && <p className="error">{errorResponse}</p>}
+            </form>
+          </div>
+        </div>
+      )}
 
       <main>
         <section className="about">
@@ -100,94 +295,59 @@ const PrincipalPage: React.FC = () => {
           </div>
         </section>
 
-        <section className="knowledge">
-  <div className="knowledge__container container">
-    <div className="knowledge__content">
-      <div className="knowledge__texts">
-        <h2 className="subtitle">Portafolio de servicios </h2>
-        <p className="knowledge__paragraph">
-          En la Unidad de Salud Mental Aurea, estamos comprometidos con tu bienestar emocional y psicológico. Nuestro catálogo de servicios está diseñado para ofrecerte una amplia gama de soluciones que se adaptan a tus necesidades individuales. Desde terapia individual hasta programas de apoyo grupal, encontrarás opciones cuidadosamente seleccionadas para acompañarte en cada etapa de tu camino hacia una vida más plena y equilibrada.
-        </p>
-        <p>Explora nuestro catálogo y descubre cómo podemos ayudarte a alcanzar el bienestar que mereces.</p>
-      </div>
-      <img src="images/2.avif" alt="portadolio" className="knowledge__image" />
-    </div>
-  </div>
-</section>
-
-
-        <section className="professionals">
-          <div className="professionals__container container">
-            <img
-              src="images/izquierda.svg"
-              alt="Flecha izquierda"
-              className="professionals__arrow"
-              id="before"
-              ref={buttonBeforeRef}
-            />
-
-            <section className="professionals_body professionals_body--show" data-id="1" ref={(el) => el && slidersRef.current.push(el)}>
-              <div className="professionals__texts">
-                <h2 className="subtitle">Caudia Mendoza</h2>
-                <h1 className="professionals__course">Terapeuta familiar</h1>
-                <p className="professionals__review">En nuestra clínica, los terapeutas familares ayudan a mejorar la comunicación y resolver conflictos entre los miembros de la famila. A través de sesiones de terapia, brindan apoyo para fortalecer las relaciones y promover el bienestar emociogal de toda la famiia.</p>
-              </div>
-              <figure className="professionals__picture">
-                <img src="images/CLAU.jfif" alt="medico 1" className="professionals__img" />
-              </figure>
-            </section>
-
-            <section className="professionals__body" data-id="2" ref={(el) => el && slidersRef.current.push(el)}>
-              <div className="professionals__texts">
-                <h2 className="subtitle">Daniel Reyes</h2>
-                <h1 className="professionals__course">Psiquiatra</h1>
-                <p className="professionals__review">En nuestra clínica, los psiquiatras son médicos especializados en el diagnóstico, tratamiento y prevención de trastornos mentales y emocionales.
-                Utilizan una combinación de terapias, incluyendo la medicación y el asesoramiento, para ayudar a los pacientes a mejorar su salud mental y su bienestar general.</p>
-              </div>
-              <figure className="professionals__picture">
-                <img src="images/Da.jpg" alt="medico 2" className="professionals__img" />
-              </figure>
-            </section>
-
-            <section className="professionals__body" data-id="3" ref={(el) => el && slidersRef.current.push(el)}>
-              <div className="professionals__texts">
-                <h2 className="subtitle">Luis Rojas</h2>
-                <h1 className="professionals__course">Psicólogo</h1>
-                <p className="professionals__review">Los psicólogos son profesionales especializados en ayudar a las personas a entender y manejar sus emociones y comportamientos. Utilizan diversas técnicas terapéuticas basadas en la evidencia para abordar problemas emocionales y mentales, apoyando a los pacientes en su camino hacia el bienestar y una mejor calidad de vida.</p>
-              </div>
-              <figure className="professionals__picture">
-                <img src="images/lu.jpg" alt="Karen Arteaga" className="professionals__img" />
-              </figure>
-            </section>
-
-            <section className="professionals__body" data-id="4" ref={(el) => el && slidersRef.current.push(el)}>
-              <div className="professionals__texts">
-                <h2 className="subtitle">Gloria Carrascal</h2>
-                <h1 className="professionals__course">Psicólogo</h1>
-                <p className="professionals__review">Especialistas en salud mental que se centran en comprender el comportamiento humano y los procesos mentales. Utlizan técnicas de terapia para ayudar a las personas a enfrentar problemas como la ansiedad, la depresión, el estrés y otros desafíos emocionales, proporcionando apoyo y orientación para mejorar su calidad de vida.</p>
-              </div>
-              <figure className="professionals__picture">
-                <img src="images/Glo.jpg" alt="Kevin Ramirez" className="professionals__img" />
-              </figure>
-            </section>
-
-            <img
-        src="images/izquierda.svg"
-        alt="Flecha izquierda"
-        className="professionals__arrow"
-        id="before"
-        ref={buttonBeforeRef}
-      />
-      <img
-        src="images/derecha.svg"
-        alt="Flecha derecha"
-        className="professionals__arrow"
-        id="next"
-        ref={buttonNextRef}
-      />
+      <section className="knowledge">
+        <div className="knowledge__container container">
+          <div className="knowledge__content">
+            <div className="knowledge__texts">
+              <h2 className="subtitle">Portafolio de servicios </h2>
+              <p className="knowledge__paragraph">
+                En la Unidad de Salud Mental Aurea, estamos comprometidos con tu bienestar emocional y psicológico. Nuestro catálogo de servicios está diseñado para ofrecerte una amplia gama de soluciones que se adaptan a tus necesidades individuales. Desde terapia individual hasta programas de apoyo grupal, encontrarás opciones cuidadosamente seleccionadas para acompañarte en cada etapa de tu camino hacia una vida más plena y equilibrada.
+              </p>
+              <p>Explora nuestro catálogo y descubre cómo podemos ayudarte a alcanzar el bienestar que mereces.</p>
+            </div>
+            <img src="images/2.avif" alt="portadolio" className="knowledge__image" />
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      <section className="professionals">
+        <div className="professionals__container container">
+          <img
+            src="images/izquierda.svg"
+            alt="Flecha izquierda"
+            className="professionals__arrow"
+            id="before"
+            ref={buttonBeforeRef}
+          />
+
+          {professionals.map((professional, index) => (
+            <section
+              key={professional.id}
+              className={`professionals__body ${index === 0 ? "professionals__body--show" : ""}`}
+              ref={(el) => el && slidersRef.current.push(el)}
+              data-id={professional.id}
+            >
+              <div className="professionals__texts">
+                <h2 className="subtitle">{professional.name}</h2>
+                <h1 className="professionals__course">{professional.title}</h1>
+                <p className="professionals__review">{professional.review}</p>
+              </div>
+              <figure className="professionals__picture">
+                <img src={professional.image} alt={professional.name} className="professionals__img" />
+              </figure>
+            </section>
+          ))}
+
+          <img
+            src="images/derecha.svg"
+            alt="Flecha derecha"
+            className="professionals__arrow"
+            id="next"
+            ref={buttonNextRef}
+          />
+        </div>
+      </section>
+    </main>
     </>
   );
 };

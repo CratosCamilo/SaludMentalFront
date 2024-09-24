@@ -9,12 +9,13 @@ const InicioD: React.FC = () => {
 return (
     <>
         <div className="sidebar">
+        <a href="#" className="logout-button">Cerrrar sesión</a>
+        <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
         <h2>Médico</h2>
         <ul>
             <li><a href="inicio.html">Inicio</a></li>
             <li><a href="pacientes.html">Pacientes</a></li>
             <li><a href="citas.html">Citas</a></li>
-            <li><a href="conf.html">Configuraciones</a></li>
         </ul>
     </div>
     <div className="main-content">
@@ -36,7 +37,7 @@ return (
             </div>
         </section>
         <section className="recent-appointments">
-            <h2>Citas Recientes</h2>
+            <h2>Próximas citas</h2>
             <table>
                 <thead>
                     <tr>

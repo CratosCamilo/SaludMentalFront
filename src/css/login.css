@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #bbdce1; /* Fondo gris */
+  background-color: #f4f4f9; /* Fondo gris */
   padding-left: 250px; /* Ajusta este valor si la columna a la izquierda es de diferente ancho */
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "../css/doc.css";
+import "../../css/doc.css";
 
 const Citas: React.FC = () => {
     const slidersRef = useRef<HTMLDivElement[]>([]);
@@ -9,12 +9,13 @@ const Citas: React.FC = () => {
     return (
         <>
             <div className="sidebar">
+            <a href="#" className="logout-button">Cerrrar sesión</a>
+            <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
         <h2>Médico</h2>
         <ul>
             <li><a href="inicio.html">Inicio</a></li>
             <li><a href="pacientes.html">Pacientes</a></li>
             <li><a href="citas.html">Citas</a></li>
-            <li><a href="conf.html">Configuraciones</a></li>
         </ul>
     </div>
     <div className="main-content">
@@ -52,7 +53,7 @@ const Citas: React.FC = () => {
                         <td><a href="historia-clinica.html?patient=Antonella"><button>Ver</button></a></td>
                     </tr>
                     <tr>
-                        <td>David Ricardo</td>
+                        <td>Ana</td>
                         <td>2024-08-30</td>
                         <td>01:00 PM</td>
                         <td><a href="historia-clinica.html?patient=Juan David"><button>Ver</button></a></td>

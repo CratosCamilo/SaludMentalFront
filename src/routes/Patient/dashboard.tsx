@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Footer from '../../components/footer';
 import Navbar from '../../components/navbar';
@@ -6,8 +7,12 @@ import { useAuth } from "../../auth/AuthProvider";
 import { API_URL } from "../../auth/authConstants";
 import './dashboard.css'
 
-
-
+interface Todo {
+    id: string;
+    title: string;
+    completed: boolean;
+  }
+  
 const Dashboard: React.FC = () => {
     const auth = useAuth();
     const user = auth.getUser();
@@ -21,36 +26,93 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    const [todos, setTodos] = useState<Todo[]>([]);
+    const [value, setValue] = useState("");
+    
+
+    async function getTodos() {
+        const accessToken = auth.getAccessToken();
+        try {
+            const response = await fetch(`${API_URL}/posts`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.ok) {
+                const json = await response.json();
+                setTodos(json);
+                console.log(json);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function createTodo() {
+        if (value.length > 3) {
+            try {
+                const response = await fetch(`${API_URL}/posts`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${auth.getAccessToken()}`,
+                    },
+                    body: JSON.stringify({ title: value }),
+                });
+                if (response.ok) {
+                    const todo = (await response.json()) as Todo;
+                    setTodos([...todos, todo]);
+                }
+            } catch (error) { }
+        }
+    }
+
+    useEffect(() => {
+        getTodos();
+    }, []);
+
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        createTodo();
+    }
+
     return (
         <>
-            <Navbar />
-            <div className='Welcome'>
-                <h4>
-                    Bienvenido {user?.name ?? ""}, usted es {getUserType(user?.patientTypeId ?? 0)} con número de identificación {user?.username ?? ""}
-                </h4>
-            </div>
+            <div className="sidebar">
+            <a href="#" className="logout-button">Cerrrar sesión</a>
+        <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
+        <h2>Paciente</h2>
+        <ul>
+            <li><a href="inicio.html">Agendar cita</a></li>
+            <li><a href="pacientes.html">Ver mi historial médico</a></li>
+            <li><a href="citas.html">Historial de pagos</a></li>
+            <li><a href="conf.html">Actulizar datos personales</a></li>
+            <li><a href="conf.html">Facturas pendientes</a></li>
+        </ul>
+    </div>
 
-            <div className='dashboard-container'>
-                <div className='Schedule_an_appointment'>
-                    <Link to="/schedule" className='Schedule_an_appointment'>Agendar cita</Link>
-                </div>
-                <div className='Medical_history'>
-                    <Link to="/history" className='Medical_history'>Ver mi historial médico</Link>
-                </div>
-                <div className='Personal_data'>
-                    <Link to="/payments" className='Personal_data'>Historial de pagos</Link>
-                </div>
-                <div className='Update_personal_data'>
-                    <Link to="/update" className='Update_personal_data'>Actualizar datos personales</Link>
-                </div>
-                <div className='Outstanding_invoices'>
-                    <Link to="/invoices" className='Outstanding_invoices'>Facturas pendientes</Link>
-                </div>
+    <div className="main-content">
+        <header> 
+        <h4>Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.patientTypeId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}</h4>
+
+        </header>
+        <section className="info-cards">
+            <div className="card">
+                <h3>AGENDAR CITAS</h3>
             </div>
-            <Footer />
+            <div className="card">
+                <h3>VER MI HISTORIAL MEDICO</h3>
+            </div>
+            <div className="card">
+                <h3>ACTUALIZAR DATOS PERSONALES</h3>
+            </div>
+        </section>
+        </div>
         </>
     );
-};
-
+}
 
 export default Dashboard;

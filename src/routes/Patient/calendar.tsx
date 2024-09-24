@@ -50,7 +50,18 @@ const Calendar = () => {
 
   return (
     <>
-      <Navbar />
+                <div className="sidebar">
+            <a href="#" className="logout-button">Cerrrar sesión</a>
+        <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
+        <h2>Paciente</h2>
+        <ul>
+            <li><a href="inicio.html">Agendar cita</a></li>
+            <li><a href="pacientes.html">Ver mi historial médico</a></li>
+            <li><a href="citas.html">Historial de pagos</a></li>
+            <li><a href="conf.html">Actulizar datos personales</a></li>
+            <li><a href="conf.html">Facturas pendientes</a></li>
+        </ul>
+    </div>s
       <div className="calendar-container">
         <h1>Seleccione una fecha para su cita</h1>
         <div className="date-picker-wrapper">
@@ -85,7 +96,6 @@ const Calendar = () => {
           Agendar cita
         </button>
       </div>
-      <Footer />
     </>
   );
 };

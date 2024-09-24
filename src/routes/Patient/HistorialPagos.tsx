@@ -49,8 +49,17 @@ const HistorialPagos = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="payment-history-container">
+      <div className="sidebar">
+      <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
+        <h2>Médico</h2>
+        <ul>
+          <li><a href="inicio.html">Inicio</a></li>
+          <li><a href="pacientes.html">Pacientes</a></li>
+          <li><a href="citas.html">Citas</a></li>
+        </ul>
+        <a href="#" className="logout-button">Salir</a>
+      </div>
+    <div className="main-content">
         <h1>Historial de Pagos</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -104,7 +113,6 @@ const HistorialPagos = () => {
           <p>No se encontraron pagos</p>
         )}
       </div>
-      <Footer />
     </>
   );
 };

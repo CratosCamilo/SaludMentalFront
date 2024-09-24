@@ -10,10 +10,11 @@ import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import Profile from "./routes/Profile.tsx";
 import OrdenMedica from "./routes/Patient/OrdenMedica.tsx"; 
 import HistoriaClinica from "./routes/HistoriaClinica.tsx";
-import Citas from "./routes/Citas.tsx";
+import Citas from "./routes/Doctor/Citas.tsx";
 import DashboardD from "./routes/Doctor/dashboard.tsx";
 import Pacientes from "./routes/Doctor/pacientes.tsx";
 import PrincipalPage from "./routes/principalPage.tsx";
+import FacturasPendientes from "./routes/FacturaElectronica.tsx";
 
 
 import "./index.css";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/citas",  
+    element: <FacturasPendientes />,
   },
   {
     path: "/signup",
@@ -52,10 +57,7 @@ const router = createBrowserRouter([
         path: "/historia-clinica",  
         element: <HistoriaClinica />,
       },
-      {
-        path: "/citas",  
-        element: <Citas />,
-      },
+      
       {
         path: "/Doctor/dashboard",  
         element: <DashboardD />,
