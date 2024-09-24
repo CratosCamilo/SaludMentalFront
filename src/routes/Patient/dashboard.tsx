@@ -86,7 +86,7 @@ const Dashboard: React.FC = () => {
         <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
         <h2>Paciente</h2>
         <ul>
-            <li><a href="inicio.html">Agendar cita</a></li>
+            <li><a href="/calendar">Agendar cita</a></li>
             <li><a href="pacientes.html">Ver mi historial médico</a></li>
             <li><a href="citas.html">Historial de pagos</a></li>
             <li><a href="conf.html">Actulizar datos personales</a></li>

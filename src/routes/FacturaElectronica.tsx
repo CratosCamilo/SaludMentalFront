@@ -67,17 +67,7 @@ const Factura: React.FC = () => {
           margin: '0',
         }}>
 
-          <header style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-            <img
-              src="../../images/logo.png"
-              alt="Logo Aurea"
-              style={{ width: '50px', marginRight: '10px' }}
-            />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h3 id='titulos'>Aurea</h3>
-              <h4 id='titulos'>Sede de Salud Mental</h4>
-            </div>
-          </header>
+          
           <h2 id='titulos'>Factura Electrónica</h2>
           <br></br>
           <label>Fecha de generación: 00 / 00 /0000 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Fecha de vencimiento: 00 / 00 /0000</label>

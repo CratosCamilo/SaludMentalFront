@@ -14,7 +14,7 @@ import Citas from "./routes/Doctor/Citas.tsx";
 import DashboardD from "./routes/Doctor/dashboard.tsx";
 import Pacientes from "./routes/Doctor/pacientes.tsx";
 import PrincipalPage from "./routes/principalPage.tsx";
-import FacturasPendientes from "./routes/FacturaElectronica.tsx";
+import Calendar from "./routes/Patient/calendar.tsx";
 
 
 import "./index.css";
@@ -30,8 +30,8 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/citas",  
-    element: <FacturasPendientes />,
+    path: "/calendar",  
+    element: <Calendar />,
   },
   {
     path: "/signup",
@@ -45,6 +45,7 @@ const router = createBrowserRouter([
         path: "/Patient/dashboard",
         element: <Dashboard />,
       },
+      
       {
         path: "/me",
         element: <Profile />,
