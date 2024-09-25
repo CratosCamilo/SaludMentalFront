@@ -75,7 +75,6 @@ const Calendar = () => {
         </ul>
       </div>s
       <div className="calendar-container">
-        <h4>Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.patientTypeId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}</h4>
         <h1>Seleccione una fecha para su cita</h1>
         <div className="date-picker-wrapper">
           <div className="large-calendar">

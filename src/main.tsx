@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./routes/Login.tsx";
-import Signup from "./routes/signup.tsx";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
 import Dashboard from "./routes/Patient/dashboard.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
@@ -15,28 +13,27 @@ import DashboardD from "./routes/Doctor/dashboard.tsx";
 import Pacientes from "./routes/Doctor/pacientes.tsx";
 import PrincipalPage from "./routes/principalPage.tsx";
 import Calendar from "./routes/Patient/calendar.tsx";
+import HistorialMedico from "./routes/Patient/HistorialMedico.tsx";
+import HistorialPagos from "./routes/Patient/HistorialPagos.tsx";
+import ProbarFront from "./routes/Patient/PDF.tsx";
 
 
 import "./index.css";
 import Dashboard2 from "./routes/Dashboard2.tsx";
+import ActualizarDatos from "./routes/Patient/ActualizarDatos.tsx";
+import FacturasPendientes from "./routes/Patient/FacturasPendientes.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <PrincipalPage />,
   },
+  
   {
-    path: "/login",
-    element: <Login />,
+    path: "/prueba",  
+    element: <ProbarFront />,
   },
-  {
-    path: "/calendar",  
-    element: <Calendar />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
+  
   {
     path: "/",
     element: <ProtectedRoute />,
@@ -45,6 +42,7 @@ const router = createBrowserRouter([
         path: "/Patient/dashboard",
         element: <Dashboard />,
       },
+      
       
       {
         path: "/me",
@@ -67,6 +65,27 @@ const router = createBrowserRouter([
         path: "/Doctor/pacientes",  
         element: <Pacientes />,
       },
+      {
+        path: "/patient/calendar",  
+        element: <Calendar />,
+      },
+      {
+        path: "/patient/historial-medico",  
+        element: <HistorialMedico />,
+      },
+      {
+        path: "/patient/historial-pagos",  
+        element: <HistorialPagos />,
+      },
+      {
+        path: "/patient/actualizar-datos",  
+        element: <ActualizarDatos />,
+      },
+      {
+        path: "/patient/facturas-pendientes",  
+        element: <FacturasPendientes />,
+      },
+
     ],
   },
 ]);

@@ -45,6 +45,14 @@ const PrincipalPage: React.FC = () => {
   const [address, setAddress] = useState("");
   const [epsType, setEpsType] = useState("sura");
   const [errorResponse, setErrorResponse] = useState("");
+  const [identification, setIdentification] = useState("");  // Para número de identificación
+  const [names, setNames] = useState("");  // Para nombres completos
+  const [surnames, setSurnames] = useState("");  // Para apellidos
+  const [email, setEmail] = useState("");  // Para el correo electrónico
+  const [cellphoneNumber, setCellphoneNumber] = useState("");  // Para el número de celular
+  const [idEps, setIdEps] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
+
 
   const auth = useAuth();
   const navigate = useNavigate();
@@ -121,13 +129,32 @@ const PrincipalPage: React.FC = () => {
       const response = await fetch(`http://localhost:3000/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, name, lastName, idNumber, address, epsType }),
+        body: JSON.stringify({
+          Identification: identification,
+          Names: names,
+          Surnames: surnames,
+          Email: email,
+          Password: password,
+          Address: address,
+          CellphoneNumber: cellphoneNumber,
+          IdEps: idEps,
+        }),
       });
 
       if (response.ok) {
+        setIdentification("");
+        setNames("");
+        setSurnames("");
+        setEmail("");
+        setPassword("");
+        setAddress("");
+        setCellphoneNumber("");
+        setIdEps("");
+        setErrorResponse("");
+        setIsRegistered(true);
         const json = await response.json();
         auth.saveUser(json);
-        navigate("/Patient/dashboard");
+
       } else {
         const json = await response.json();
         setErrorResponse(json.body.error);
@@ -138,9 +165,7 @@ const PrincipalPage: React.FC = () => {
     }
   };
 
-  if (auth.isAuthenticated) {
-    return <Navigate to="/Patient/dashboard" />;
-  }
+
 
   return (
     <>
@@ -208,68 +233,114 @@ const PrincipalPage: React.FC = () => {
         <div className="modal">
           <div className="modal__content">
             <span className="close" onClick={handleCloseModal}>&times;</span>
-            <h2>Registrarse</h2>
-            <form onSubmit={handleRegisterSubmit}>
-              <div className="form-group">
-                <label htmlFor="idNumber">Número de identificación:</label>
-                <input
-                  type="text"
-                  id="idNumber"
-                  value={idNumber}
-                  onChange={(e) => setIdNumber(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="name">Nombre:</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="lastName">Apellidos:</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="address">Dirección:</label>
-                <input
-                  type="text"
-                  id="address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="epsType">Tipo de EPS:</label>
-                <select
-                  id="epsType"
-                  value={epsType}
-                  onChange={(e) => setEpsType(e.target.value)}
-                  required
+            {isRegistered ? (
+              <div className="success-message">
+                <h2>Registro realizado con éxito</h2>
+                <button
+                  onClick={() => {
+                    setShowRegisterModal(false);
+                    setShowLoginModal(true);
+                  }}
+                  className="login-button"
                 >
-                  <option value="sura">Sura</option>
-                  <option value="salud">Salud</option>
-                  <option value="sanitas">Sanitas</option>
-                  <option value="particular">Particular</option>
-                </select>
+                  Iniciar sesión
+                </button>
               </div>
-              <button type="submit" className="register-button">Registrarse</button>
-              {errorResponse && <p className="error">{errorResponse}</p>}
-            </form>
+            ) : (
+              <form onSubmit={handleRegisterSubmit}>
+                <div className="form-group">
+                  <label htmlFor="idNumber">Número de identificación:</label>
+                  <input
+                    type="text"
+                    id="idNumber"
+                    value={identification}
+                    onChange={(e) => setIdentification(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="names">Nombres:</label>
+                  <input
+                    type="text"
+                    id="names"
+                    value={names}
+                    onChange={(e) => setNames(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="surnames">Apellidos:</label>
+                  <input
+                    type="text"
+                    id="surnames"
+                    value={surnames}
+                    onChange={(e) => setSurnames(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Contraseña:</label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="address">Dirección:</label>
+                  <input
+                    type="text"
+                    id="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="cellphoneNumber">Número de Celular:</label>
+                  <input
+                    type="text"
+                    id="cellphoneNumber"
+                    value={cellphoneNumber}
+                    onChange={(e) => setCellphoneNumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="epsType">Tipo de EPS:</label>
+                  <select
+                    id="epsType"
+                    value={idEps}
+                    onChange={(e) => setIdEps(e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Selecciona una opción</option>
+                    <option value="colsanitas">Colsanitas</option>
+                    <option value="salud">Salud</option>
+                    <option value="sura">Sura</option>
+                    <option value="particular">Particular</option>
+                  </select>
+                </div>
+                <button type="submit" className="register-button">Registrarse</button>
+                {errorResponse && <p className="error">{errorResponse}</p>}
+              </form>
+            )}
           </div>
         </div>
       )}
+
 
       <main>
         <section className="about">
@@ -295,59 +366,59 @@ const PrincipalPage: React.FC = () => {
           </div>
         </section>
 
-      <section className="knowledge">
-        <div className="knowledge__container container">
-          <div className="knowledge__content">
-            <div className="knowledge__texts">
-              <h2 className="subtitle">Portafolio de servicios </h2>
-              <p className="knowledge__paragraph">
-                En la Unidad de Salud Mental Aurea, estamos comprometidos con tu bienestar emocional y psicológico. Nuestro catálogo de servicios está diseñado para ofrecerte una amplia gama de soluciones que se adaptan a tus necesidades individuales. Desde terapia individual hasta programas de apoyo grupal, encontrarás opciones cuidadosamente seleccionadas para acompañarte en cada etapa de tu camino hacia una vida más plena y equilibrada.
-              </p>
-              <p>Explora nuestro catálogo y descubre cómo podemos ayudarte a alcanzar el bienestar que mereces.</p>
-            </div>
-            <img src="images/2.avif" alt="portadolio" className="knowledge__image" />
-          </div>
-        </div>
-      </section>
-
-      <section className="professionals">
-        <div className="professionals__container container">
-          <img
-            src="images/izquierda.svg"
-            alt="Flecha izquierda"
-            className="professionals__arrow"
-            id="before"
-            ref={buttonBeforeRef}
-          />
-
-          {professionals.map((professional, index) => (
-            <section
-              key={professional.id}
-              className={`professionals__body ${index === 0 ? "professionals__body--show" : ""}`}
-              ref={(el) => el && slidersRef.current.push(el)}
-              data-id={professional.id}
-            >
-              <div className="professionals__texts">
-                <h2 className="subtitle">{professional.name}</h2>
-                <h1 className="professionals__course">{professional.title}</h1>
-                <p className="professionals__review">{professional.review}</p>
+        <section className="knowledge">
+          <div className="knowledge__container container">
+            <div className="knowledge__content">
+              <div className="knowledge__texts">
+                <h2 className="subtitle">Portafolio de servicios </h2>
+                <p className="knowledge__paragraph">
+                  En la Unidad de Salud Mental Aurea, estamos comprometidos con tu bienestar emocional y psicológico. Nuestro catálogo de servicios está diseñado para ofrecerte una amplia gama de soluciones que se adaptan a tus necesidades individuales. Desde terapia individual hasta programas de apoyo grupal, encontrarás opciones cuidadosamente seleccionadas para acompañarte en cada etapa de tu camino hacia una vida más plena y equilibrada.
+                </p>
+                <p>Explora nuestro catálogo y descubre cómo podemos ayudarte a alcanzar el bienestar que mereces.</p>
               </div>
-              <figure className="professionals__picture">
-                <img src={professional.image} alt={professional.name} className="professionals__img" />
-              </figure>
-            </section>
-          ))}
+              <img src="images/2.avif" alt="portadolio" className="knowledge__image" />
+            </div>
+          </div>
+        </section>
 
-          <img
-            src="images/derecha.svg"
-            alt="Flecha derecha"
-            className="professionals__arrow"
-            id="next"
-            ref={buttonNextRef}
-          />
-        </div>
-      </section>
-    </main>
+        <section className="professionals">
+          <div className="professionals__container container">
+            <img
+              src="images/izquierda.svg"
+              alt="Flecha izquierda"
+              className="professionals__arrow"
+              id="before"
+              ref={buttonBeforeRef}
+            />
+
+            {professionals.map((professional, index) => (
+              <section
+                key={professional.id}
+                className={`professionals__body ${index === 0 ? "professionals__body--show" : ""}`}
+                ref={(el) => el && slidersRef.current.push(el)}
+                data-id={professional.id}
+              >
+                <div className="professionals__texts">
+                  <h2 className="subtitle">{professional.name}</h2>
+                  <h1 className="professionals__course">{professional.title}</h1>
+                  <p className="professionals__review">{professional.review}</p>
+                </div>
+                <figure className="professionals__picture">
+                  <img src={professional.image} alt={professional.name} className="professionals__img" />
+                </figure>
+              </section>
+            ))}
+
+            <img
+              src="images/derecha.svg"
+              alt="Flecha derecha"
+              className="professionals__arrow"
+              id="next"
+              ref={buttonNextRef}
+            />
+          </div>
+        </section>
+      </main>
     </>
   );
 };

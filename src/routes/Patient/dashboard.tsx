@@ -86,11 +86,11 @@ const Dashboard: React.FC = () => {
         <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
         <h2>Paciente</h2>
         <ul>
-            <li><a href="/calendar">Agendar cita</a></li>
-            <li><a href="pacientes.html">Ver mi historial médico</a></li>
-            <li><a href="citas.html">Historial de pagos</a></li>
-            <li><a href="conf.html">Actulizar datos personales</a></li>
-            <li><a href="conf.html">Facturas pendientes</a></li>
+            <li><a href="/patient/calendar">Agendar cita</a></li>
+            <li><a href="/patient/historial-medico">Ver mi historial médico</a></li>
+            <li><a href="/patient/historial-pagos">Historial de pagos</a></li>
+            <li><a href="/patient/actualizar-datos">Actulizar datos personales</a></li>
+            <li><a href="/patient/facturas-pendientes">Facturas pendientes</a></li>
         </ul>
     </div>
 
