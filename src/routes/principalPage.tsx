@@ -59,6 +59,9 @@ const PrincipalPage: React.FC = () => {
   const slidersRef = useRef<HTMLDivElement[]>([]);
   const buttonNextRef = useRef<HTMLImageElement | null>(null);
   const buttonBeforeRef = useRef<HTMLImageElement | null>(null);
+  if(auth.isAuthenticated){
+    return <Navigate to="/Patient/dashboard"/>
+  }
 
   useEffect(() => {
     const sliders = slidersRef.current;
@@ -164,7 +167,7 @@ const PrincipalPage: React.FC = () => {
       setErrorResponse("Ocurrió un error al intentar registrarse.");
     }
   };
-
+  
 
 
   return (
