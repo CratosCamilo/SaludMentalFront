@@ -14,7 +14,7 @@ export default function Dashboard() {
             case 4: return "Paciente";
             default: return "Desconocido";
         }
-    };
+    };  
 
     useEffect(() => {
         // Cualquier lógica de efecto necesario

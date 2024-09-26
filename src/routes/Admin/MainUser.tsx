@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/sidebar';
 import { useAuth } from '../../auth/AuthProvider';
+import type { UserAdmin } from "../../types/types";
+import requestNewAccessToken from "../../auth/requestNewAccessToken";
+import { API_URL } from '../../auth/authConstants';
 
 // Definición de la interfaz de usuario
-export interface User {
-  id: number;
-  NumeroCC: number;
-  Nombre: string;
-  Apellido: string;
-  email: string;
-  password: string;
-  EstadoUsuario: string;
-  rol: string;
-  tipoUsuario: string;
-  hojaVida: string;
-}
+
 
 const NavigationMenu: React.FC = () => {
 
@@ -61,30 +53,36 @@ const NavigationMenu: React.FC = () => {
 };
 
 const UserRegistrationPage: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserAdmin[]>([]);
   const [Nombre, setNombre] = useState<string>('');
   const [Apellido, setApellido] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [NumeroCC, setNumeroCC] = useState<number | undefined>(undefined);
-  const [EstadoUsuario, setEstadoUsuario] = useState<string>('');
-  const [rol, setRol] = useState<string>('');
-  const [tipoUsuario, setTipoUsuario] = useState<string>('');
-  const [hojaVida, setHojaVida] = useState<string>('');
+  const [EstadoUsuario, setEstadoUsuario] = useState<number>(0);
+  const [rol, setRol] = useState<number>(0);
+  const [tipoUsuario, setTipoUsuario] = useState<number>(0);
+  const [hojaVida, setHojaVida] = useState<number>(0);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-
+  const auth = useAuth();
   // Cargar usuarios al cargar la página
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/ModuloAdmin/MenuPaciente');
+      const response = await fetch(`${API_URL}/Admin/select`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.getAccessToken()}`,
+        },
+      });
       const data = await response.json();
       if (response.ok) {
-        setUsers(data.users);
+        setUsers(data.body.data);
       } else {
         setErrorMessage(data.error || 'Error al cargar los usuarios');
-      }
+      } ''
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('Ocurrió un error al cargar los usuarios tablaaaa');
@@ -155,18 +153,18 @@ const UserRegistrationPage: React.FC = () => {
   };
 
   const handleEdit = (NumeroCC: number) => {
-    const userToEdit = users.find(user => user.NumeroCC === NumeroCC);
+    const userToEdit = users.find(user => user.username === NumeroCC);
     if (userToEdit) {
-      setNombre(userToEdit.Nombre);
-      setApellido(userToEdit.Apellido);
+      setNombre(userToEdit.name);
+      setApellido(userToEdit.lastName);
       setEmail(userToEdit.email);
       setPassword(userToEdit.password);
-      setNumeroCC(userToEdit.NumeroCC);
-      setEstadoUsuario(userToEdit.EstadoUsuario);
-      setRol(userToEdit.rol);
-      setTipoUsuario(userToEdit.tipoUsuario);
-      setHojaVida(userToEdit.hojaVida);
-      setEditingUserId(userToEdit.NumeroCC);
+      setNumeroCC(userToEdit.username);
+      setEstadoUsuario(userToEdit.status);
+      setRol(userToEdit.roleId);
+      setTipoUsuario(userToEdit.patientTypeId);
+      setHojaVida(userToEdit.lifeSheetId);
+      setEditingUserId(userToEdit.username);
     }
   };
 
@@ -217,14 +215,14 @@ const UserRegistrationPage: React.FC = () => {
 
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:3000/api/ModuloAdmin/MenuPaciente/${NumeroCC}`, {
+        const response = await fetch(`${API_URL}/ModuloAdmin/MenuPaciente/${NumeroCC}`, {
           method: "DELETE",
         });
 
         const data = await response.json();
         if (response.ok) {
           setUsers(prevUsers =>
-            prevUsers.filter(user => user.NumeroCC !== NumeroCC)
+            prevUsers.filter(user => user.CC !== NumeroCC)
           );
           setSuccessMessage(data.message || 'Usuario eliminado correctamente');
         } else {
@@ -236,7 +234,7 @@ const UserRegistrationPage: React.FC = () => {
       }
     }
   };
-  const auth = useAuth();
+
 
   const getUserType = (roleId: number) => {
     switch (roleId) {
@@ -247,7 +245,7 @@ const UserRegistrationPage: React.FC = () => {
       default: return "Desconocido";
     }
   };
-
+  console.log("users: ", users);
   return (
     <>
       <Sidebar />
@@ -347,39 +345,39 @@ const UserRegistrationPage: React.FC = () => {
         </form>
 
         <button type="button" onClick={saveChanges}>Guardar</button>
-
-        <h2>Pacientes Registrados</h2>
-        <table border={1}>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Cedula</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Email</th>
-              <th>Estado</th>
-              <th>Hoja de vida</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.NumeroCC}</td>
-                <td>{user.Nombre}</td>
-                <td>{user.Apellido}</td>
-                <td>{user.email}</td>
-                <td>{user.EstadoUsuario}</td>
-                <td>{user.hojaVida}</td>
-                <td>
-                  <button onClick={() => handleEdit(user.NumeroCC)}>Editar</button>
-                  <button onClick={() => handleDelete(user.NumeroCC)}>Eliminar</button>
-                </td>
+        <div className=''>
+          <h2>Pacientes Registrados</h2>
+          <table border={1}>
+            <thead>
+              <tr>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Hoja de vida</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.CC}>
+                  <td>{user.CC}</td>
+                  <td>{user.nombreUsuario}</td>
+                  <td>{user.apellidoUsuario}</td>
+                  <td>{user.emailUsuario}</td>
+                  <td>{user.estadoUsuario}</td>
+                  <td>{user.idHoja_Vida}</td>
+                  <td>
+                    <button onClick={() => handleEdit(user.CC)}>Editar</button>
+                    <button onClick={() => handleDelete(user.CC)}>Eliminar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </>
   );
