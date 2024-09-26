@@ -59,10 +59,10 @@ const UserRegistrationPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [NumeroCC, setNumeroCC] = useState<number | undefined>(undefined);
-  const [EstadoUsuario, setEstadoUsuario] = useState<number>(0);
-  const [rol, setRol] = useState<number>(0);
-  const [tipoUsuario, setTipoUsuario] = useState<number>(0);
-  const [hojaVida, setHojaVida] = useState<number>(0);
+  const [EstadoUsuario, setEstadoUsuario] = useState<number| undefined>(undefined);
+  const [rol, setRol] = useState<number| undefined>(undefined);
+  const [tipoUsuario, setTipoUsuario] = useState<number| undefined>(undefined);
+  const [hojaVida, setHojaVida] = useState<number| undefined>(undefined);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
@@ -146,25 +146,24 @@ const UserRegistrationPage: React.FC = () => {
     setEmail('');
     setPassword('');
     setNumeroCC(undefined);
-    setEstadoUsuario('');
-    setRol('');
-    setTipoUsuario('');
-    setHojaVida('');
+    setEstadoUsuario(undefined);
+    setRol(undefined);
+    setTipoUsuario(undefined);
+    setHojaVida(undefined);
   };
 
   const handleEdit = (NumeroCC: number) => {
-    const userToEdit = users.find(user => user.username === NumeroCC);
+    const userToEdit = users.find(user => user.CC === NumeroCC);
     if (userToEdit) {
-      setNombre(userToEdit.name);
-      setApellido(userToEdit.lastName);
-      setEmail(userToEdit.email);
-      setPassword(userToEdit.password);
-      setNumeroCC(userToEdit.username);
-      setEstadoUsuario(userToEdit.status);
-      setRol(userToEdit.roleId);
-      setTipoUsuario(userToEdit.patientTypeId);
-      setHojaVida(userToEdit.lifeSheetId);
-      setEditingUserId(userToEdit.username);
+      setNombre(userToEdit.nombreUsuario);
+      setApellido(userToEdit.apellidoUsuario);
+      setEmail(userToEdit.emailUsuario);
+      setPassword(userToEdit.pwdUsuario);
+      setNumeroCC(userToEdit.CC);
+      setEstadoUsuario(userToEdit.estadoUsuario);
+      setRol(userToEdit.idRol);
+      setTipoUsuario(userToEdit.idTipoPaciente);
+      setHojaVida(userToEdit.idHoja_Vida);
     }
   };
 
@@ -195,7 +194,7 @@ const UserRegistrationPage: React.FC = () => {
         if (response.ok) {
           setUsers(prevUsers =>
             prevUsers.map(user =>
-              user.NumeroCC === editingUserId ? data.user : user
+              user.CC === editingUserId ? data.user : user
             )
           );
           setEditingUserId(null);
@@ -308,9 +307,9 @@ const UserRegistrationPage: React.FC = () => {
           <div>
             <label>Estado: </label>
             <input
-              type="text"
+              type="number"
               value={EstadoUsuario}
-              onChange={(e) => setEstadoUsuario(e.target.value)}
+              onChange={(e) => setEstadoUsuario(e.target.value ? Number(e.target.value) : undefined)}
               required
             />
           </div>
@@ -319,7 +318,7 @@ const UserRegistrationPage: React.FC = () => {
             <input
               type="text"
               value={rol}
-              onChange={(e) => setRol(e.target.value)}
+              onChange={(e) => setRol(e.target.value ? Number(e.target.value) : undefined)}
               required
             />
           </div>
@@ -328,7 +327,7 @@ const UserRegistrationPage: React.FC = () => {
             <input
               type="text"
               value={tipoUsuario}
-              onChange={(e) => setTipoUsuario(e.target.value)}
+              onChange={(e) => setTipoUsuario(e.target.value ? Number(e.target.value) : undefined)}
               required
             />
           </div>
@@ -337,7 +336,7 @@ const UserRegistrationPage: React.FC = () => {
             <input
               type="text"
               value={hojaVida}
-              onChange={(e) => setHojaVida(e.target.value)}
+              onChange={(e) => setHojaVida(e.target.value ? Number(e.target.value) : undefined)}
               required
             />
           </div>

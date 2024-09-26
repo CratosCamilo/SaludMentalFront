@@ -31,6 +31,7 @@ export interface UserAdmin {
     nombreUsuario: string;           // Corresponde a nombreUsuario
     apellidoUsuario: string;       // Corresponde a apellidoUsuario
     emailUsuario: string;          // Corresponde a emailUsuario
+    pwdUsuario: string;
     idSede: number;         // Corresponde a idSede
     idRol: number;         // Corresponde a idRol
     estadoUsuario: number;         // Corresponde a estadoUsuario
