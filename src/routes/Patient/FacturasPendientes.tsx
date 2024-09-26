@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../../components/navbar';
 import Footer from '../../components/footer';
 import { API_URL } from "../../auth/authConstants";
+import Sidebar from '../../components/sidebar';
 
 interface FacturasPendientes {
   invoiceId: string;
@@ -10,36 +11,36 @@ interface FacturasPendientes {
   status: string;
 }
 
-const FacturasPendientes= () => {
+const FacturasPendientes = () => {
   const [formData, setFormData] = useState({
     patientId: '',
   });
-  const [invoices, setInvoices] = useState<FacturasPendientes[]>([]);  
+  const [invoices, setInvoices] = useState<FacturasPendientes[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
- 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      
+
       const response = await fetch(`${API_URL}/AQUI_SE_CAMBIA_EL_ENDPOINT_Y_SE_PONE_EL_DEL_BACKEND/${formData.patientId}`);
-      
+
       if (!response.ok) {
         throw new Error('Error al obtener las facturas pendientes');
       }
 
-      const data: FacturasPendientes[] = await response.json();  
-      setInvoices(data);  
-    } catch (error: any) {  
+      const data: FacturasPendientes[] = await response.json();
+      setInvoices(data);
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setLoading(false);
@@ -48,17 +49,8 @@ const FacturasPendientes= () => {
 
   return (
     <>
-      <div className="sidebar">
-      <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
-        <h2>Médico</h2>
-        <ul>
-          <li><a href="inicio.html">Inicio</a></li>
-          <li><a href="pacientes.html">Pacientes</a></li>
-          <li><a href="citas.html">Citas</a></li>
-        </ul>
-        <a href="#" className="logout-button">Salir</a>
-      </div>
-    <div className="main-content">
+      <Sidebar />
+      <div className="calendar-container">
         <h1>Facturas Pendientes</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">

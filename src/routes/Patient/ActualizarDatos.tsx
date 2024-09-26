@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../../components/navbar';
 import Footer from '../../components/footer';
 import { API_URL } from "../../auth/authConstants";
+import Sidebar from '../../components/sidebar';
 
 interface PatientData {
   patientId: string;
@@ -95,8 +96,8 @@ const ActualizarDatos = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="update-patient-container">
+      <Sidebar /> 
+      <div className="calendar-container">
         <h1>Actualizar Datos del Paciente</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -163,7 +164,6 @@ const ActualizarDatos = () => {
           )}
         </form>
       </div>
-      <Footer />
     </>
   );
 };

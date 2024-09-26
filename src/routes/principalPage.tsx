@@ -59,8 +59,26 @@ const PrincipalPage: React.FC = () => {
   const slidersRef = useRef<HTMLDivElement[]>([]);
   const buttonNextRef = useRef<HTMLImageElement | null>(null);
   const buttonBeforeRef = useRef<HTMLImageElement | null>(null);
-  if(auth.isAuthenticated){
-    return <Navigate to="/Patient/dashboard"/>
+  if (auth.isAuthenticated) {
+    const userP = auth.getUser();
+    const roleId = userP?.roleId // o auth.getUser?.roleId dependiendo de tu estructura
+    switch (roleId) {
+      case 1: // Admin
+        navigate("/admin/dashboard");
+        break;
+      case 2: // Operador
+        navigate("/Operador/dashboard");
+        break;
+      case 3: // Paciente
+        navigate("/Doctor/dashboard");
+        break;
+      case 4: // Paciente
+        navigate("/Patient/dashboard");
+        break;
+      default:
+
+        break;
+    }
   }
 
   useEffect(() => {
@@ -115,7 +133,26 @@ const PrincipalPage: React.FC = () => {
       if (response.ok) {
         const json = await response.json();
         auth.saveUser(json);
-        navigate("/Patient/dashboard");
+        // Asegúrate de que el roleId está disponible
+        const userP = auth.getUser();
+        const roleId = userP?.roleId // o auth.getUser?.roleId dependiendo de tu estructura
+        switch (roleId) {
+          case 1: // Admin
+            navigate("/admin/dashboard");
+            break;
+          case 2: // Operador
+            navigate("/Operador/dashboard");
+            break;
+          case 3: // Paciente
+            navigate("/Doctor/dashboard");
+            break;
+          case 4: // Paciente
+            navigate("/Patient/dashboard");
+            break;
+          default:
+
+            break;
+        }
       } else {
         const json = await response.json();
         setErrorResponse(json.body.error);
@@ -167,7 +204,7 @@ const PrincipalPage: React.FC = () => {
       setErrorResponse("Ocurrió un error al intentar registrarse.");
     }
   };
-  
+
 
 
   return (

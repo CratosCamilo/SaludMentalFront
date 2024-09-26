@@ -5,20 +5,20 @@ import { format } from 'date-fns';
 import './calendar.css';
 import { useAuth } from "../../auth/AuthProvider";
 import { API_URL } from "../../auth/authConstants";
-import Footer from '../../components/footer';
-import Navbar from '../../components/navbar';
+import Sidebar from '../../components/sidebar';
+
 
 const Calendar = () => {
   const auth = useAuth();
   const user = auth.getUser();
   const getUserType = (id: number) => {
-    switch(id) {
-        case 1: return "Sisben";
-        case 2: return "Afiliado";
-        case 3: return "Particular";
-        default: return "Desconocido";
+    switch (id) {
+      case 1: return "Sisben";
+      case 2: return "Afiliado";
+      case 3: return "Particular";
+      default: return "Desconocido";
     }
-};
+  };
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [disabledTimes, setDisabledTimes] = useState<Date[]>([]);
@@ -62,19 +62,13 @@ const Calendar = () => {
 
   return (
     <>
-      <div className="sidebar">
-        <a href="#" className="logout-button">Cerrrar sesión</a>
-        <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
-        <h2>Paciente</h2>
-        <ul>
-          <li><a href="inicio.html">Agendar cita</a></li>
-          <li><a href="pacientes.html">Ver mi historial médico</a></li>
-          <li><a href="citas.html">Historial de pagos</a></li>
-          <li><a href="conf.html">Actulizar datos personales</a></li>
-          <li><a href="conf.html">Facturas pendientes</a></li>
-        </ul>
-      </div>s
+      <Sidebar />
       <div className="calendar-container">
+        <header>
+          <h4>
+            Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.roleId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}
+          </h4>
+        </header>
         <h1>Seleccione una fecha para su cita</h1>
         <div className="date-picker-wrapper">
           <div className="large-calendar">

@@ -15,7 +15,8 @@ import PrincipalPage from "./routes/principalPage.tsx";
 import Calendar from "./routes/Patient/calendar.tsx";
 import HistorialMedico from "./routes/Patient/HistorialMedico.tsx";
 import HistorialPagos from "./routes/Patient/HistorialPagos.tsx";
-import ProbarFront from "./routes/Patient/PDF.tsx";
+import DashboardA from "./routes/Admin/MainUser.tsx";
+import ProbarFront from "./routes/Admin/MainUser.tsx";
 
 
 import "./index.css";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/Patient/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/admin/dashboard",
+        element: <DashboardA />,
       },
       
       

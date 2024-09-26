@@ -5,6 +5,7 @@ import { API_URL } from "../../auth/authConstants";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import "../../css/doc.css";
+import Sidebar from "../../components/sidebar";
 
 interface MedicalOrder {
   idOrden_Medica?: number;
@@ -138,16 +139,7 @@ export default function MedicalOrderForm() {
 
   return (
     <>
-      <div className="sidebar">
-      <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image"/>
-        <h2>Médico</h2>
-        <ul>
-          <li><a href="inicio.html">Inicio</a></li>
-          <li><a href="pacientes.html">Pacientes</a></li>
-          <li><a href="citas.html">Citas</a></li>
-        </ul>
-        <a href="#" className="logout-button">Salir</a>
-      </div>
+      <Sidebar /> 
       <div className="main-content">
         <header>
           <h1>Generar Orden Médica</h1>

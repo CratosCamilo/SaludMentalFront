@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Navbar from '../../components/navbar';
 import { API_URL } from "../../auth/authConstants";
+import Sidebar from '../../components/sidebar';
 
 interface HistorialMedicoItem {
   patientId: string;
@@ -54,8 +55,8 @@ const HistorialMedico = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="history-container">
+      <Sidebar /> 
+      <div className="calendar-container">
         <h1>Historial Médico</h1>
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-group">
