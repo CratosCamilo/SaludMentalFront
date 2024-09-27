@@ -249,7 +249,7 @@ const UserRegistrationPage: React.FC = () => {
     <>
       <Sidebar />
 
-      <div className="calendar-container">
+      <div className="fetchUsers-container">
         <header>
           <h4>
             Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.roleId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}
