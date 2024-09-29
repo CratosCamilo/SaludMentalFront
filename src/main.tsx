@@ -36,6 +36,21 @@ const router = createBrowserRouter([
   },
   
   {
+    path: "/Doctor/dashboard",  
+    element: <DashboardD />,
+  },
+  
+  {
+    path: "/Doctor/pacientes",  
+    element: <Pacientes />,
+  },
+  
+  {
+    path: "/Doctor/Citas",  
+    element: <Citas />,
+  },
+  
+  {
     path: "/",
     element: <ProtectedRoute />,
     children: [
@@ -62,14 +77,6 @@ const router = createBrowserRouter([
         element: <HistoriaClinica />,
       },
       
-      {
-        path: "/Doctor/dashboard",  
-        element: <DashboardD />,
-      },
-      {
-        path: "/Doctor/pacientes",  
-        element: <Pacientes />,
-      },
       {
         path: "/patient/calendar",  
         element: <Calendar />,
