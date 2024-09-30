@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useAuth } from "../../auth/AuthProvider";
-import Sidebar from '../../components/sidebar'; // Importar el nuevo componente Sidebar
-import './dashboard.css';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from "../../auth/AuthProvider"; // Esto sigue siendo necesario si usas autenticación
+import Sidebar from '../../components/sidebar'; // Asumo que tu Sidebar ya está hecho
+import './dashboard.css'; // Aquí puedes agregar tu CSS existente
 
 export default function Dashboard() {
     const auth = useAuth();
@@ -16,8 +16,23 @@ export default function Dashboard() {
         }
     };  
 
+    // Panel de Bienestar
+    const [estadoAnimo, setEstadoAnimo] = useState(4); // Estado de ánimo por defecto
+
+    const cambiarEstadoAnimo = (nuevoEstado: number) => {
+        setEstadoAnimo(nuevoEstado);
+    };
+
+    // Agenda de Citas
+    const [citas, setCitas] = useState<{ id: number, fecha: string, hora: string, medico: string }[]>([]);
+
     useEffect(() => {
-        // Cualquier lógica de efecto necesario
+        // Simula llamada a API para obtener las citas
+        const citasSimuladas = [
+            { id: 1, fecha: '2024-09-30', hora: '10:00 AM', medico: 'Dr. Juan Perez' },
+            { id: 2, fecha: '2024-10-05', hora: '02:00 PM', medico: 'Dra. Ana López' }
+        ];
+        setCitas(citasSimuladas);
     }, []);
 
     return (
@@ -30,15 +45,38 @@ export default function Dashboard() {
                         Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.roleId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}
                     </h4>
                 </header>
-                <section className="info-cards">
-                    <div className="card">
-                        <h3>AGENDAR CITAS</h3>
+
+                {/* Panel de Bienestar */}
+                <section className="dashboard-secciones">
+                    <div className="bienestar-panel">
+                        <h3>Tu Estado de Bienestar</h3>
+                        <p>¿Cómo te sientes hoy?</p>
+                        <div className="estado-animo">
+                            {[1, 2, 3, 4, 5].map((nivel) => (
+                                <button 
+                                    key={nivel} 
+                                    className={`estado-btn ${estadoAnimo === nivel ? 'activo' : ''}`}
+                                    onClick={() => cambiarEstadoAnimo(nivel)}
+                                >
+                                    {nivel}
+                                </button>
+                            ))}
+                        </div>
+                        <p>Tu nivel actual de bienestar es: {estadoAnimo}</p>
                     </div>
-                    <div className="card">
-                        <h3>VER MI HISTORIAL MEDICO</h3>
-                    </div>
-                    <div className="card">
-                        <h3>ACTUALIZAR DATOS PERSONALES</h3>
+
+                    {/* Agenda de Citas */}
+                    <div className="agenda-citas">
+                        <h3>Próximas Citas</h3>
+                        <ul>
+                            {citas.map((cita) => (
+                                <li key={cita.id}>
+                                    <p><strong>Fecha:</strong> {cita.fecha}</p>
+                                    <p><strong>Hora:</strong> {cita.hora}</p>
+                                    <p><strong>Médico:</strong> {cita.medico}</p>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </section>
             </div>
