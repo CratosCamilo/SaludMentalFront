@@ -24,6 +24,13 @@
 .time-selector {
   flex: 1;
 }
+.modal__content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
 
 .time-picker {
   width: 200px;
