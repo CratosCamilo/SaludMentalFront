@@ -103,7 +103,7 @@ const UserRegistrationPage: React.FC = () => {
       setErrorMessage('Todos los campos son obligatorios');
       return;
     }
-    
+
 
 
 
@@ -272,6 +272,7 @@ const UserRegistrationPage: React.FC = () => {
     }
   };
 
+
   return (
     <>
       <Sidebar />
@@ -300,8 +301,8 @@ const UserRegistrationPage: React.FC = () => {
                 <th>Nombre</th>
                 <th>Rol</th>
                 <th>Email</th>
-                <th>Estado</th>
                 <th>Hoja de vida</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -310,8 +311,11 @@ const UserRegistrationPage: React.FC = () => {
                 <tr key={user.CC}>
                   <td>{user.CC}</td>
                   <td>{user.nombreUsuario} {user.apellidoUsuario}</td>
-                  <td>{user.idRol}</td>
+                  <td>{getUserType(user.idRol)}</td>
                   <td>{user.emailUsuario}</td>
+                  <td><button
+                    
+                    onClick={() => (user.CC)}>Ver</button></td>
                   <td>
                     <button
                       style={{
@@ -327,9 +331,9 @@ const UserRegistrationPage: React.FC = () => {
                     </button>
                   </td>
 
-                  <td>{user.idHoja_Vida}</td>
                   <td>
                     <button onClick={() => handleEdit(user.CC)}>Editar</button>
+
                   </td>
                 </tr>
               ))}
@@ -403,7 +407,7 @@ const UserRegistrationPage: React.FC = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
-                  </div>                  
+                  </div>
                   <div>
                     <label>Rol: </label>
                     <input
