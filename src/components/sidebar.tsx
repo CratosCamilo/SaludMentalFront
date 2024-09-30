@@ -34,9 +34,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <div className="sidebar">
-            <Link to="#" className="navbar-login-button" onClick={handleSignOut}>
-                Cerrar sesión
-            </Link>
+            <a className="logout-button" onClick={handleSignOut}>Cerrar sesión</a>
             <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
             <h2>Paciente</h2>
             <ul>

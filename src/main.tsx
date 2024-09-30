@@ -63,7 +63,10 @@ const router = createBrowserRouter([
         path: "/admin/dashboard",
         element: <DashboardA />,
       },
-      
+      {
+        path: "/Doctor/dashboard",  
+        element: <DashboardD />,
+      },
       
       {
         path: "/me",

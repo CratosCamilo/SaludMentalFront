@@ -97,10 +97,10 @@ const ActualizarDatos = () => {
   return (
     <>
       <Sidebar /> 
-      <div className="calendar-container">
-        <h1>Actualizar Datos del Paciente</h1>
+      <div className="calendar-container ml-[180px] p-8"> {/* Margen para evitar que el Sidebar lo cubra */}
+        <h1 className="text-3xl font-bold text-center mb-4">Actualizar Datos del Paciente</h1> {/* Título centrado */}
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group mb-4">
             <label>ID Paciente:</label>
             <input
               type="text"
@@ -120,7 +120,7 @@ const ActualizarDatos = () => {
 
           {initialLoaded && (
             <>
-              <div className="form-group">
+              <div className="form-group mb-4">
                 <label>Nombre:</label>
                 <input
                   type="text"
@@ -130,7 +130,7 @@ const ActualizarDatos = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group mb-4">
                 <label>Dirección:</label>
                 <input
                   type="text"
@@ -140,7 +140,7 @@ const ActualizarDatos = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group mb-4">
                 <label>Teléfono:</label>
                 <input
                   type="text"
@@ -150,7 +150,7 @@ const ActualizarDatos = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group mb-4">
                 <label>Email:</label>
                 <input
                   type="email"
@@ -163,6 +163,39 @@ const ActualizarDatos = () => {
             </>
           )}
         </form>
+
+        {/* Tabla de Datos del Paciente */}
+        {initialLoaded && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Datos del Paciente</h2>
+            <table className="min-w-full border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">Campo</th>
+                  <th className="border border-gray-300 px-4 py-2">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Nombre</td>
+                  <td className="border border-gray-300 px-4 py-2">{formData.name}</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Dirección</td>
+                  <td className="border border-gray-300 px-4 py-2">{formData.address}</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Teléfono</td>
+                  <td className="border border-gray-300 px-4 py-2">{formData.phone}</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Email</td>
+                  <td className="border border-gray-300 px-4 py-2">{formData.email}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   );
