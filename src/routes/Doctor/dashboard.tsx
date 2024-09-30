@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "/src/css/doc.css";
 import { useAuth } from "../../auth/AuthProvider";
 import Sidebar from "../../components/sidebar";
 
 const InicioD: React.FC = () => {
+    const auth = useAuth();
+
     const doctorId = 1234; //toca traer el cc del user registrado
     const [pendingAppointments, setPendingAppointments] = useState<number>(0);
     const [pacienttotal, setPacientTotal] = useState<number>(0);
