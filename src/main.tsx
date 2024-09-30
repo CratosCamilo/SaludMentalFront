@@ -35,10 +35,7 @@ const router = createBrowserRouter([
     element: <ProbarFront />,
   },
   
-  {
-    path: "/Doctor/dashboard",  
-    element: <DashboardD />,
-  },
+  
   
   {
     path: "/Doctor/pacientes",  
@@ -57,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/Patient/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/Doctor/dashboard",  
+        element: <DashboardD />,
       },
       {
         path: "/admin/dashboard",
