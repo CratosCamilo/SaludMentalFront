@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../../components/navbar';
 import Footer from '../../components/footer';
 import { API_URL } from "../../auth/authConstants";
+import Sidebar from '../../components/sidebar';
 
 interface Payment {
   patientId: string;
@@ -15,7 +16,7 @@ const HistorialPagos = () => {
     patientId: '',
     date: ''
   });
-  const [payments, setPayments] = useState<Payment[]>([]); 
+  const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -31,16 +32,16 @@ const HistorialPagos = () => {
     setError('');
 
     try {
-    
+
       const response = await fetch(`${API_URL}/AQUI_SE_CAMBIA_EL_ENDPOINT_Y_SE_PONE_EL_DEL_BACKEND/${formData.patientId}?date=${formData.date}`);
-      
+
       if (!response.ok) {
         throw new Error('Error al obtener el historial de pagos');
       }
 
-      const data: Payment[] = await response.json(); 
-      setPayments(data);  
-    } catch (error: any) {  
+      const data: Payment[] = await response.json();
+      setPayments(data);
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setLoading(false);
@@ -49,8 +50,8 @@ const HistorialPagos = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="payment-history-container">
+      <Sidebar />
+      <div className="main-content">
         <h1>Historial de Pagos</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -104,7 +105,6 @@ const HistorialPagos = () => {
           <p>No se encontraron pagos</p>
         )}
       </div>
-      <Footer />
     </>
   );
 };

@@ -6,14 +6,21 @@ import { API_URL } from "./authConstants";
 const AuthContext = createContext({
   isAuthenticated: false,
   getAccessToken: () => {},
-  setAccessTokenAndRefreshToken: (_accessToken: string, _refreshToken: string) => {},
+  setAccessTokenAndRefreshToken: (
+    _accessToken: string,
+    _refreshToken: string
+  ) => {},
   getRefreshToken: () => {},
   saveUser: (_userData: AuthResponse) => {},
   getUser: () => ({} as User | undefined),
   signout: () => {},
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | undefined>();
   const [accessToken, setAccessToken] = useState<string>("");
   const [refreshToken, setRefreshToken] = useState<string>("");
@@ -25,7 +32,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function saveUser(userData: AuthResponse) {
-    console.log("saveUser", userData);  // Añade este log
     setAccessTokenAndRefreshToken(
       userData.body.accessToken,
       userData.body.refreshToken
@@ -34,16 +40,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsAuthenticated(true);
   }
 
-  function setAccessTokenAndRefreshToken(accessToken: string, refreshToken: string) {
+  function setAccessTokenAndRefreshToken(
+    accessToken: string,
+    refreshToken: string
+  ) {
     console.log("setAccessTokenAndRefreshToken", accessToken, refreshToken);
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
+
     localStorage.setItem("token", JSON.stringify({ refreshToken }));
   }
 
   function getRefreshToken() {
+    if (!!refreshToken) {
+      return refreshToken;
+    }
     const token = localStorage.getItem("token");
-    console.log("Token almacenado en localStorage:", token); // Log del token en localStorage
     if (token) {
       const { refreshToken } = JSON.parse(token);
       setRefreshToken(refreshToken);
@@ -53,15 +65,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function getNewAccessToken(refreshToken: string) {
-    try {
-      const token = await requestNewAccessToken(refreshToken);
-      if (token) {
-        return token;
-      }
-    } catch (error) {
-      console.error("Error al obtener un nuevo token de acceso:", error);
+    const token = await requestNewAccessToken(refreshToken);
+    if (token) {
+      return token;
     }
-    return null;
   }
 
   function getUser(): User | undefined {
@@ -78,27 +85,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function checkAuth() {
     try {
-      if (accessToken) {
+      if (!!accessToken) {
+        //existe access token
         const userInfo = await retrieveUserInfo(accessToken);
         setUser(userInfo);
         setAccessToken(accessToken);
         setIsAuthenticated(true);
+        setIsLoading(false);
       } else {
+        //no existe access token
         const token = localStorage.getItem("token");
         if (token) {
           const refreshToken = JSON.parse(token).refreshToken;
-          const newToken = await getNewAccessToken(refreshToken);
-          if (newToken) {
-            const userInfo = await retrieveUserInfo(newToken);
-            setUser(userInfo);
-            setAccessToken(newToken);
-            setIsAuthenticated(true);
-          }
+          //pedir nuevo access token
+          getNewAccessToken(refreshToken)
+            .then(async (newToken) => {
+              const userInfo = await retrieveUserInfo(newToken!);
+              
+              setUser(userInfo);
+              setAccessToken(newToken!);
+              setIsAuthenticated(true);
+              setIsLoading(false);
+            })
+            .catch((error) => {
+              console.log(error);
+              setIsLoading(false);
+            });
+        } else {
+          setIsLoading(false);
         }
       }
     } catch (error) {
-      console.error("Error al verificar la autenticación:", error);
-    } finally {
       setIsLoading(false);
     }
   }
@@ -133,20 +150,11 @@ async function retrieveUserInfo(accessToken: string) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     if (response.ok) {
       const json = await response.json();
-      console.log("User info fetched:", json);
       return json.body;
-    } else {
-      console.error("Failed to fetch user info:", response.statusText);
-      return undefined;
     }
-  } catch (error) {
-    console.error("Error fetching user info:", error);
-    return undefined;
-  }
+  } catch (error) {}
 }
-
 
 export const useAuth = () => useContext(AuthContext);

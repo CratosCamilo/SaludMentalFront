@@ -2,36 +2,51 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./routes/Login.tsx";
-import Signup from "./routes/signup.tsx";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
 import Dashboard from "./routes/Patient/dashboard.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import Profile from "./routes/Profile.tsx";
 import OrdenMedica from "./routes/Patient/OrdenMedica.tsx"; 
 import HistoriaClinica from "./routes/HistoriaClinica.tsx";
-import Citas from "./routes/Citas.tsx";
+import Citas from "./routes/Doctor/Citas.tsx";
 import DashboardD from "./routes/Doctor/dashboard.tsx";
 import Pacientes from "./routes/Doctor/pacientes.tsx";
 import PrincipalPage from "./routes/principalPage.tsx";
+import Calendar from "./routes/Patient/calendar.tsx";
+import HistorialMedico from "./routes/Patient/HistorialMedico.tsx";
+import HistorialPagos from "./routes/Patient/HistorialPagos.tsx";
+import DashboardA from "./routes/Admin/MainUser.tsx";
+import ProbarFront from "./routes/Admin/MainUser.tsx";
 
 
 import "./index.css";
 import Dashboard2 from "./routes/Dashboard2.tsx";
+import ActualizarDatos from "./routes/Patient/ActualizarDatos.tsx";
+import FacturasPendientes from "./routes/Patient/FacturasPendientes.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <PrincipalPage />,
   },
+  
   {
-    path: "/login",
-    element: <Login />,
+    path: "/prueba",  
+    element: <ProbarFront />,
   },
+  
+  
+  
   {
-    path: "/signup",
-    element: <Signup />,
+    path: "/Doctor/pacientes",  
+    element: <Pacientes />,
   },
+  
+  {
+    path: "/Doctor/Citas",  
+    element: <Citas />,
+  },
+  
   {
     path: "/",
     element: <ProtectedRoute />,
@@ -40,6 +55,19 @@ const router = createBrowserRouter([
         path: "/Patient/dashboard",
         element: <Dashboard />,
       },
+      {
+        path: "/Doctor/dashboard",  
+        element: <DashboardD />,
+      },
+      {
+        path: "/admin/dashboard",
+        element: <DashboardA />,
+      },
+      {
+        path: "/Doctor/dashboard",  
+        element: <DashboardD />,
+      },
+      
       {
         path: "/me",
         element: <Profile />,
@@ -52,18 +80,28 @@ const router = createBrowserRouter([
         path: "/historia-clinica",  
         element: <HistoriaClinica />,
       },
+      
       {
-        path: "/citas",  
-        element: <Citas />,
+        path: "/patient/calendar",  
+        element: <Calendar />,
       },
       {
-        path: "/Doctor/dashboard",  
-        element: <DashboardD />,
+        path: "/patient/historial-medico",  
+        element: <HistorialMedico />,
       },
       {
-        path: "/Doctor/pacientes",  
-        element: <Pacientes />,
+        path: "/patient/historial-pagos",  
+        element: <HistorialPagos />,
       },
+      {
+        path: "/patient/actualizar-datos",  
+        element: <ActualizarDatos />,
+      },
+      {
+        path: "/patient/facturas-pendientes",  
+        element: <FacturasPendientes />,
+      },
+
     ],
   },
 ]);

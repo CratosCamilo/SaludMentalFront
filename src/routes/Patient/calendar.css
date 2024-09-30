@@ -1,7 +1,46 @@
 .calendar-container {
+  padding: 20px; /* Espacio alrededor del calendario */
+  max-width: 1000px; /* Ajustar el ancho máximo */
+  margin: 0 auto; /* Centrar el contenedor */
+  text-align: center; /* Centrar el texto */
+  height: auto; /* Permitir que la altura se ajuste automáticamente */
+}
+
+.date-picker-wrapper {
+  display: flex;
+  justify-content: center; /* Centrar el contenido dentro del contenedor */
+  align-items: center; /* Alinear verticalmente */
+  flex-direction: column; /* Colocar elementos en columna */
+}
+
+.large-calendar {
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  max-width: 700px; /* Limitar el ancho máximo del calendario */
+  margin: 0 auto; /* Centrar el calendario */
+}
+
+.time-picker-wrapper {
+  width: 100%; /* Asegurar que el selector de tiempo ocupe todo el ancho */
+}
+
+button.schedule-button {
+  margin-top: 20px; /* Añadir margen superior para separarlo del calendario */
+  background-color: #2980b9; /* Color de fondo del botón */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 10px 20px; /* Espaciado interno */
+  cursor: pointer; /* Cambiar cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Transición de color */
+}
+
+button.schedule-button:hover {
+  background-color: #007f94; /* Color de fondo al pasar el mouse */
+}
+.fetchUsers-container {
   padding: 20px;
   max-width: 80000px;
-  margin: 0 auto;
+  margin-left: 300px;;
   text-align: center;
   height: 500px;
 }
@@ -16,6 +55,13 @@
 .calendar,
 .time-selector {
   flex: 1;
+}
+.modal__content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
 }
 
 .time-picker {

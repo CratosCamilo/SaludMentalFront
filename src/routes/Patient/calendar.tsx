@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import './calendar.css'; 
-import Footer from '../../components/footer';
-import Navbar from '../../components/navbar';
+import './calendar.css';
+import { useAuth } from "../../auth/AuthProvider";
+import { API_URL } from "../../auth/authConstants";
+import Sidebar from '../../components/sidebar';
+
 
 const Calendar = () => {
+  const auth = useAuth();
+  const user = auth.getUser();
+  const getUserType = (id: number) => {
+    switch (id) {
+      case 1: return "Sisben";
+      case 2: return "Afiliado";
+      case 3: return "Particular";
+      default: return "Desconocido";
+    }
+  };
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [disabledTimes, setDisabledTimes] = useState<Date[]>([]);
@@ -14,17 +26,17 @@ const Calendar = () => {
   const generateAvailableTimes = (date: Date): Date[] => {
     const times: Date[] = [];
     const start = new Date(date);
-    start.setHours(7, 0, 0, 0); 
+    start.setHours(7, 0, 0, 0);
 
     const end = new Date(date);
-    end.setHours(17, 0, 0, 0); 
+    end.setHours(17, 0, 0, 0);
 
     while (start < end) {
       const hours = start.getHours();
       if (hours < 12 || hours >= 14) {
         times.push(new Date(start));
       }
-      start.setMinutes(start.getMinutes() + 30); 
+      start.setMinutes(start.getMinutes() + 30);
     }
 
     return times;
@@ -32,7 +44,7 @@ const Calendar = () => {
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
-    setSelectedTime(null); 
+    setSelectedTime(null);
   };
 
   const handleTimeSelect = (time: Date | null) => {
@@ -50,8 +62,13 @@ const Calendar = () => {
 
   return (
     <>
-      <Navbar />
+      <Sidebar />
       <div className="calendar-container">
+        <header>
+          <h4>
+            Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.roleId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}
+          </h4>
+        </header>
         <h1>Seleccione una fecha para su cita</h1>
         <div className="date-picker-wrapper">
           <div className="large-calendar">
@@ -85,7 +102,6 @@ const Calendar = () => {
           Agendar cita
         </button>
       </div>
-      <Footer />
     </>
   );
 };

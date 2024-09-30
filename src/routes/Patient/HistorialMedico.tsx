@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Navbar from '../../components/navbar';
+import Sidebar from '../../components/sidebar';
 import { API_URL } from "../../auth/authConstants";
 
 interface HistorialMedicoItem {
@@ -26,9 +26,8 @@ const HistorialMedico = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
-  const handleDateChange = (date : Date | null ) => {
-    setFormData({ ...formData, date  });
+  const handleDateChange = (date: Date | null) => {
+    setFormData({ ...formData, date });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,10 +41,10 @@ const HistorialMedico = () => {
       if (!response.ok) {
         throw new Error('Error al obtener los datos del historial médico');
       }
-      
+
       const data = await response.json();
-      setHistory(data);  
-    } catch (error: any) {  
+      setHistory(data);
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setLoading(false);
@@ -54,8 +53,8 @@ const HistorialMedico = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="history-container">
+      <Sidebar />
+      <div className="calendar-container">
         <h1>Historial Médico</h1>
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-group">

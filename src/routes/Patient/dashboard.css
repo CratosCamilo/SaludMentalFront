@@ -1,138 +1,182 @@
+/* Estilos generales del dashboard */
 .Welcome {
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .dashboard-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #f9f9f900;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 500px;
-  }
-  
-  .dashboard-button {
-    background-color: #fff;
-    padding: 20px 30px;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .dashboard-button:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-  }
-  
-  .dashboard-button a {
-    text-decoration: none;
-    color: #337ab7;
-    transition: color 0.3s ease;
-  }
-  
-  .dashboard-button a:hover {
-    color: #23527c;
-  }
-  
-  .dashboard-button h5 {
-    margin-top: 0;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .dashboard-button p {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .Schedule_an_appointment, 
-  .Medical_history, 
-  .Personal_data, 
-  .Update_personal_data, 
-  .Outstanding_invoices {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-      margin: 10px;
-      border-radius: 8px;
-      text-align: center;
-      background-color: #ffffff; /* color de fondo */
-      color: rgb(82, 82, 82); /* color del texto */
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-  }
-  
-  /* Estilo al hacer hover sobre los botones */
-  .Schedule_an_appointment:hover,
-  .Medical_history:hover,
-  .Personal_data:hover,
-  .Update_personal_data:hover,
-  .Outstanding_invoices:hover {
-      background-color:  #80b0b7;
-  }
-  
-  /* Estilo al hacer clic */
- /* .Schedule_an_appointment:active,
-  .Medical_history:active,
-  .Personal_data:active,
-  .Update_personal_data:active,
-  .Outstanding_invoices:active {
-      background-color: #003f7f;
-  }
-  */
-  
-  /* Animación para los botones */
-  .dashboard-button {
-    animation: fade-in 0.5s ease;
-  }
-  
-  .dashboard-button:hover {
-    animation: pulse 0.5s ease;
-  }
-  
-  @keyframes fade-in {
-    0% {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f900;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: auto; /* Ajusta el tamaño automático según el contenido */
+}
+
+/* Estilos para los botones principales */
+.dashboard-button {
+  background-color: #fff;
+  padding: 20px 30px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.dashboard-button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.dashboard-button a {
+  text-decoration: none;
+  color: #337ab7;
+  transition: color 0.3s ease;
+}
+
+.dashboard-button a:hover {
+  color: #23527c;
+}
+
+.dashboard-button h5 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-button p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Estilos para las secciones específicas */
+.Schedule_an_appointment, 
+.Medical_history, 
+.Personal_data, 
+.Update_personal_data, 
+.Outstanding_invoices {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #ffffff; /* color de fondo */
+  color: rgb(82, 82, 82); /* color del texto */
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover en los botones de secciones */
+.Schedule_an_appointment:hover,
+.Medical_history:hover,
+.Personal_data:hover,
+.Update_personal_data:hover,
+.Outstanding_invoices:hover {
+  background-color: #80b0b7;
+}
+
+/* Animaciones para botones */
+.dashboard-button {
+  animation: fade-in 0.5s ease;
+}
+
+.dashboard-button:hover {
+  animation: pulse 0.5s ease;
+}
+
+@keyframes fade-in {
+  0% {
       opacity: 0;
-    }
-    100% {
+  }
+  100% {
       opacity: 1;
-    }
   }
-  
-  @keyframes pulse {
-    0% {
+}
+
+@keyframes pulse {
+  0% {
       transform: scale(1);
-    }
-    50% {
+  }
+  50% {
       transform: scale(1.05);
-    }
-    100% {
+  }
+  100% {
       transform: scale(1);
-    }
   }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .dashboard-container {
+}
+
+/* Secciones específicas del dashboard */
+.main-content {
+  padding: 20px;
+  background-color: #f4f6f9;
+}
+
+.dashboard-secciones {
+  display: flex;
+  flex-direction: column; /* Cambiar a una columna para centrar mejor */
+  align-items: center;
+  gap: 20px;
+}
+
+.bienestar-panel, .agenda-citas {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.estado-animo {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.estado-btn {
+  background-color: #ccc;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.estado-btn.activo {
+  background-color: #0cc0df; /* Color azul claro */
+  color: white;
+}
+
+.agenda-citas ul {
+  list-style: none;
+  padding: 0;
+}
+
+.agenda-citas li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .dashboard-container {
       grid-template-columns: 1fr;
-    }
-    .dashboard-button {
-      margin-bottom: 20px;
-    }
   }
+  .dashboard-button {
+      margin-bottom: 20px;
+  }
+}
