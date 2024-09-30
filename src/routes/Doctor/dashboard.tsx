@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "/src/css/doc.css";
 import { useAuth } from "../../auth/AuthProvider";
-import Sidebar from "../../components/sidebar";
+import Sidebar from "../../components/sidebarDoctor";
 
 const InicioD: React.FC = () => {
     const doctorId = 1234; //toca traer el cc del user registrado
@@ -73,16 +73,7 @@ const InicioD: React.FC = () => {
 
     return (
         <>
-            <div className="sidebar">
-                <a href="#" className="logout-button">Cerrar sesión</a>
-                <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
-                <h2>Médico</h2>
-                <ul>
-                    <li><a href="./dashboard">Inicio</a></li>
-                    <li><a href="./pacientes">Pacientes</a></li>
-                    <li><a href="./citas">Citas</a></li>
-                </ul>
-            </div>
+            <Sidebar/>
             <div className="main-content">
                 <header>
                     <h1>Bienvenido, <span id="doctor-name">Dr. Smith</span></h1>
