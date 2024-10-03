@@ -63,15 +63,17 @@ const CitasPaciente: React.FC = () => {
             <Sidebar />
             <div className="main-content">
                 <header>
-                    <h1>CITAS</h1>
+                    <h1>CITAS PACIENTE {auth.getUser()?.name.toUpperCase() + " " + auth.getUser()?.lastName.toUpperCase()}</h1>
                 </header>
                 <section className="recent-appointments">
-                    <h2>Citas Recientes de {auth.getUser()?.name}</h2>
+                    <h2>Citas Recientes</h2>
                     <table border={1}>
                         <thead>
-                            <tr>                                <th>Nombre del Doctor</th>
+                            <tr>
+                                <th>Doctor</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
+                                <th>Paciente</th>
                                 <th>Servicio</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -80,9 +82,10 @@ const CitasPaciente: React.FC = () => {
                         <tbody id="appointments-list">
                             {citas.map(cita => (
                                 <tr key={cita.idCita}>
-                                    <td>{cita.nombreDoctor}</td>
+                                    <td>{cita.nombreDoctor + " " + cita.apellidoDoctor}</td>
                                     <td>{formattedDate(cita.dia)}</td>
                                     <td>{formattedTime(cita.hora)}</td>
+                                    <td>{auth.getUser()?.name + " " + auth.getUser()?.lastName}</td>
                                     <td>{cita.nombreServicio}</td>
                                     <td><button
                                         style={{
