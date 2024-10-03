@@ -40,6 +40,21 @@ export interface UserAdmin {
     idTipoPaciente: number;  // Corresponde a idTipoPaciente
 }
 
+export interface Cita {
+    idCita: number;              // Identificador único de la cita
+    idDocCC: number;             // Identificador del doctor
+    idServicio: number;          // Identificador del servicio
+    idUsuarioCC: number;         // Identificador del usuario que agendó la cita
+    dia: Date;                   // Fecha de la cita
+    hora: string;                // Hora de la cita en formato 'hh:mm a'
+    estadoCita: number;          // Estado de la cita (e.g., 'confirmada', 'cancelada')
+    nombrePaciente: string;      // Nombre del paciente
+    nombreDoctor: string;        // Nombre del doctor
+    nombreServicio: string;      // Nombre del servicio
+}
+
+
+
 
 export interface AccessTokenResponse {
     statusCode: number;

@@ -7,48 +7,8 @@ import { API_URL } from '../../auth/authConstants';
 
 // Definición de la interfaz de usuario
 
-const NavigationMenu: React.FC = () => {
-  const [isMenuVisible, setMenuVisible] = useState(false);
 
-  const menuUser = () => {
-    setMenuVisible(!isMenuVisible);
-  };
 
-  return (
-    <nav style={{ padding: '10px', backgroundColor: '#f0f0f0', marginBottom: '20px' }}>
-      <ul style={{ listStyleType: 'none', display: 'flex', gap: '15px' }}>
-        <li><a href="./MainUser">Usuarios</a></li>
-        <li><a href="./MainPacient">Pacientes</a></li>
-        <li><a href="./MainDoctor">Especialistas</a></li>
-        <li><a href="#historias-clinicas">Historias Clínicas</a></li>
-        <li><a href="#citas">Citas</a></li>
-        <li><a href="#auditorias">Auditorías</a></li>
-        <li>
-          <div style={{ position: 'relative' }}>
-            <a href="#" onClick={menuUser}>IMAGEN menú desplegable</a>
-            {isMenuVisible && (
-              <ul style={{
-                position: 'absolute',
-                top: '100%',
-                right: 0,
-                backgroundColor: '#ffffff',
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-                listStyleType: 'none',
-                padding: '10px',
-                margin: 0,
-                zIndex: 1000,
-              }}>
-                <li style={{ padding: '5px 10px' }}><a href="#perfil">Perfil</a></li>
-                <li style={{ padding: '5px 10px' }}><a href="#ayuda">Ayuda</a></li>
-                <li style={{ padding: '5px 10px' }}><a href="#cerrar-sesion">Cerrar sesión</a></li>
-              </ul>
-            )}
-          </div>
-        </li>
-      </ul>
-    </nav>
-  );
-};
 
 const UserRegistrationPage: React.FC = () => {
   const [users, setUsers] = useState<UserAdmin[]>([]);

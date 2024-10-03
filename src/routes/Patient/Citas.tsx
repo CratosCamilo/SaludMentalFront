@@ -1,47 +1,62 @@
-import React, { useEffect, useRef, useState } from "react";
-import "../../css/doc.css";
-
+import React, { useEffect, useState } from "react";
+import { useAuth } from '../../auth/AuthProvider';
+import { API_URL } from '../../auth/authConstants';
 import Sidebar from '../../components/sidebar';
-
-interface PacienteData {
-    id: number;
-    idCita: string;
-    documento: number;
-    nombre: string;
-    fecha: string;
-    hora: string;
-    servicio: string;
-    estadoCita: string;
-}
+import type { Cita } from "../../types/types";
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 const CitasPaciente: React.FC = () => {
-    const doctorId = 1234; //logica ara que tome el cc del user ingreso
-    const [pacientes, setPacientes] = useState<PacienteData[]>([]);
+    const auth = useAuth();
+    const [citas, setCitas] = useState<Cita[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
-    const slidersRef = useRef<HTMLDivElement[]>([]);
-    const buttonNextRef = useRef<HTMLImageElement | null>(null);
-    const buttonBeforeRef = useRef<HTMLImageElement | null>(null);
-
-    const handleMostrarPacientes = async () => {
+    // Cargar citas al cargar la página
+    const fetchCitas = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/doctor/citas/${doctorId}`, {
-                method: 'GET',
+            const response = await fetch(`${API_URL}/Pacient/citas/${auth.getUser()?.username}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth.getAccessToken()}`,
+                },
             });
-
-            if (!response.ok) {
-                throw new Error('Error al obtener la lista de pacientes');
-            }
-
             const data = await response.json();
-            setPacientes(data);
+            if (response.ok) {
+                setCitas(data.body.data);
+            } else {
+                setErrorMessage(data.error || 'Error al cargar las citas');
+            }
         } catch (error) {
             console.error('Error:', error);
+            setErrorMessage('Ocurrió un error al cargar las citas');
         }
     };
 
     useEffect(() => {
-        handleMostrarPacientes();
+        fetchCitas();
     }, []);
+
+    // Formatear la fecha
+    const formattedDate = (date: Date | null) => {
+        if (!date) return 'Fecha no disponible';
+        return format(new Date(date), 'dd \'de\' MMMM \'de\' yyyy', { locale: es }); // Formato: 02 de octubre de 2024
+    };
+
+    // Función para convertir hora en formato 'HH:MM:SS' a Date
+    const convertTimeToDate = (time: string) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        const date = new Date();
+        date.setHours(hours, minutes, 0, 0); // Establece horas y minutos
+        return date;
+    };
+
+    // Formatear la hora
+    const formattedTime = (time: string | null) => {
+        if (!time) return 'Hora no disponible';
+        const date = convertTimeToDate(time); // Convierte la hora a un objeto Date
+        return format(date, 'hh:mm a'); // Formato: 02:30 PM
+    };
 
     return (
         <>
@@ -51,13 +66,10 @@ const CitasPaciente: React.FC = () => {
                     <h1>CITAS</h1>
                 </header>
                 <section className="recent-appointments">
-                    <h2>Citas Recientes</h2>
-                    <table>
+                    <h2>Citas Recientes de {auth.getUser()?.name}</h2>
+                    <table border={1}>
                         <thead>
-                            <tr>
-                                <th>Id Cita</th>
-                                <th>Documento del Paciente</th>
-                                <th>Nombre del Paciente</th>
+                            <tr>                                <th>Nombre del Doctor</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Servicio</th>
@@ -66,17 +78,26 @@ const CitasPaciente: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody id="appointments-list">
-                            {pacientes.map(paciente => (
-                                <tr key={paciente.id}>
-                                    <td>{paciente.idCita}</td>
-                                    <td>{paciente.documento}</td>
-                                    <td>{paciente.nombre}</td>
-                                    <td>{paciente.fecha}</td>
-                                    <td>{paciente.hora}</td>
-                                    <td>{paciente.servicio}</td>
-                                    <td>{paciente.estadoCita}</td>
+                            {citas.map(cita => (
+                                <tr key={cita.idCita}>
+                                    <td>{cita.nombreDoctor}</td>
+                                    <td>{formattedDate(cita.dia)}</td>
+                                    <td>{formattedTime(cita.hora)}</td>
+                                    <td>{cita.nombreServicio}</td>
+                                    <td><button
+                                        style={{
+                                            backgroundColor: cita.estadoCita === 1 ? '#80b929' : '#b92938',
+                                            color: 'white',
+                                            border: 'none',
+                                            padding: '5px 10px',
+                                            cursor: 'pointer',
+                                        }}
+
+                                    >
+                                        {cita.estadoCita === 1 ? 'Activo' : 'Inactivo'}
+                                    </button></td>
                                     <td>
-                                        <a href={`historia-clinica.html?patient=${paciente.nombre}`}>
+                                        <a href={`historia-clinica.html?patient=${cita.idCita}`}>
                                             <button>Ver</button>
                                         </a>
                                     </td>
@@ -84,14 +105,11 @@ const CitasPaciente: React.FC = () => {
                             ))}
                         </tbody>
                     </table>
+                    {errorMessage && <p>{errorMessage}</p>}
                 </section>
             </div>
         </>
-
     );
 };
-
-<script src="js/dark-mode.js"></script>
-
 
 export default CitasPaciente;
