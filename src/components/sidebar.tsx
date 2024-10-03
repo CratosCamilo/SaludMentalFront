@@ -40,6 +40,7 @@ const Sidebar: React.FC = () => {
             <ul>
                 <li><a href="/patient/dashboard">Incio</a></li>
                 <li><a href="/patient/calendar">Agendar cita</a></li>
+                <li><a href="/patient/citas">Citas</a></li>
                 <li><a href="/patient/historial-medico">Ver mi historial médico</a></li>
                 <li><a href="/patient/historial-pagos">Historial de pagos</a></li>
                 <li><a href="/patient/actualizar-datos">Actualizar datos personales</a></li>
