@@ -32,7 +32,7 @@ const UserRegistrationPage: React.FC = () => {
   // Cargar usuarios al cargar la página
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`${API_URL}/Admin/select`, {
+      const response = await fetch(`${API_URL}/Secretary/select`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -368,7 +368,7 @@ const UserRegistrationPage: React.FC = () => {
                       required
                     />
                   </div>
-                  <div>
+                  <div style={{ display: "none" }}>
                     <label>Rol: </label>
                     <input
                       type="text"

@@ -67,7 +67,7 @@ const PrincipalPage: React.FC = () => {
         navigate("/admin/dashboard");
         break;
       case 2: // Operador
-        navigate("/Operador/dashboard");
+        navigate("/secretary/pacientes");
         break;
       case 3: // Paciente
         navigate("/Doctor/dashboard");
@@ -141,7 +141,7 @@ const PrincipalPage: React.FC = () => {
             navigate("/admin/dashboard");
             break;
           case 2: // Operador
-            navigate("/Operador/dashboard");
+            navigate("/secretary/pacientes");
             break;
           case 3: // Paciente
             navigate("/Doctor/dashboard");
@@ -435,7 +435,7 @@ const PrincipalPage: React.FC = () => {
               <section
                 key={professional.id}
                 className={`professionals__body ${index === 0 ? "professionals__body--show" : ""}`}
-                ref={(el) => el && slidersRef.current.push(el)}
+                ref={(el) => el && slidersRef.current.push(el as HTMLDivElement)}
                 data-id={professional.id}
               >
                 <div className="professionals__texts">

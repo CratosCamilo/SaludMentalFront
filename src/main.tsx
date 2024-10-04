@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import PrincipalPage from "./routes/principalPage.tsx";
-import ProbarFront from "./routes/prueba.tsx";
+import ProbarFront from "./routes/secretaria/TareasPendientes.tsx";
 
 // Rutas de Patient
 import Dashboard from "./routes/Patient/dashboard.tsx";
@@ -24,6 +24,9 @@ import Pacientes from "./routes/Doctor/pacientes.tsx";
 
 // Rutas de Admin
 import DashboardA from "./routes/Admin/MainUser.tsx";
+
+// Rutas de Secretaria
+import PacientesSecretaria from "./routes/Secretary/Pacientes.tsx";
 
 // Otras rutas
 import Profile from "./routes/Profile.tsx";
@@ -111,6 +114,17 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard",
         element: <DashboardA />,
+      },
+    ],
+  },
+  // Rutas protegidas para administradores (roleId = 2)
+  {
+    path: "/",
+    element: <ProtectedRoute roleId={2} />,
+    children: [
+      {
+        path: "/secretary/pacientes",
+        element: <PacientesSecretaria />,
       },
     ],
   },

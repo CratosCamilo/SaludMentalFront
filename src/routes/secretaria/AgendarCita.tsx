@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from "../../auth/AuthProvider";
 import { API_URL } from "../../auth/authConstants";
-import './manageAppointments.css';
 
 interface Appointment {
     id: string;
