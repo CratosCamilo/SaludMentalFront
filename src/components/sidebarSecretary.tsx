@@ -5,7 +5,7 @@ import '../routes/Patient/dashboard.css'
 import './navbar.css'
 
 
-const Sidebar: React.FC = () => {
+const SidebarSecretary: React.FC = () => {
     const auth = useAuth();
 
     async function handleSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -33,20 +33,15 @@ const Sidebar: React.FC = () => {
 
     return (
         <div className="sidebar">
-            <a className="logout-button" onClick={handleSignOut}>Cerrar sesión</a>
+            <a className="logout-button"  onClick={handleSignOut}>Cerrar sesión</a>
             <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
-            <h2>Paciente</h2>
-            <ul>
-                <li><a href="/patient/dashboard">Incio</a></li>
-                <li><a href="/patient/calendar">Agendar cita</a></li>
-                <li><a href="/patient/citas">Citas</a></li>
-                <li><a href="/patient/historial-medico">Ver mi historial médico</a></li>
-                <li><a href="/patient/historial-pagos">Historial de pagos</a></li>
-                <li><a href="/patient/actualizar-datos">Actualizar datos personales</a></li>
-                <li><a href="/patient/facturas-pendientes">Facturas pendientes</a></li>
+            <h2>Operario</h2>
+            <ul>                
+                <li><a href="./pacientes">Pacientes</a></li>
+                <li><a href="./calendar">Agendar Cita</a></li>
             </ul>
         </div>
     );
 };
 
-export default Sidebar;
+export default SidebarSecretary;

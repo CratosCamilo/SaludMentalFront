@@ -27,6 +27,7 @@ import DashboardA from "./routes/Admin/MainUser.tsx";
 
 // Rutas de Secretaria
 import PacientesSecretaria from "./routes/Secretary/Pacientes.tsx";
+import CalendarSecretary from "./routes/Secretary/AgendarCita.tsx";
 
 // Otras rutas
 import Profile from "./routes/Profile.tsx";
@@ -125,6 +126,10 @@ const router = createBrowserRouter([
       {
         path: "/secretary/pacientes",
         element: <PacientesSecretaria />,
+      },
+      {
+        path: "/secretary/calendar",
+        element: <CalendarSecretary />,
       },
     ],
   },

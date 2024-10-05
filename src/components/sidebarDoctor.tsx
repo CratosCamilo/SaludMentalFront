@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from "../auth/AuthProvider";
 import { API_URL } from "../auth/authConstants";
 import '../routes/Patient/dashboard.css'

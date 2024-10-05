@@ -67,7 +67,7 @@ const PrincipalPage: React.FC = () => {
         navigate("/admin/dashboard");
         break;
       case 2: // Operador
-        navigate("/secretary/pacientes");
+        navigate("/secretary/calendar");
         break;
       case 3: // Paciente
         navigate("/Doctor/dashboard");
@@ -141,7 +141,7 @@ const PrincipalPage: React.FC = () => {
             navigate("/admin/dashboard");
             break;
           case 2: // Operador
-            navigate("/secretary/pacientes");
+            navigate("/secretary/calendar");
             break;
           case 3: // Paciente
             navigate("/Doctor/dashboard");
