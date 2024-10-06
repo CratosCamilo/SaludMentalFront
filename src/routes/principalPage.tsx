@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../css/principalPage.css";
 import { useAuth } from "../auth/AuthProvider";
-import { Navigate, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 const professionals = [
   {
@@ -39,11 +39,7 @@ const PrincipalPage: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [idNumber, setIdNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [epsType, setEpsType] = useState("sura");
   const [errorResponse, setErrorResponse] = useState("");
   const [identification, setIdentification] = useState("");  // Para número de identificación
   const [names, setNames] = useState("");  // Para nombres completos

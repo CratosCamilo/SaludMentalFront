@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "/src/css/doc.css";
 import Sidebar from "../../components/sidebarDoctor";
 
@@ -16,9 +16,6 @@ const Paciente: React.FC = () => {
     const doctorId = 1234; //toca traer el cc del user registrado
 
     const [pacientes, setPacientes] = useState<PacienteData[]>([]);
-    const slidersRef = useRef<HTMLDivElement[]>([]);
-    const buttonNextRef = useRef<HTMLImageElement | null>(null);
-    const buttonBeforeRef = useRef<HTMLImageElement | null>(null);
 
     const handleMostrarPacientes = async () => {
         try {

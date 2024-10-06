@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
@@ -10,7 +10,6 @@ import { es } from 'date-fns/locale';
 
 const Calendar = () => {
   const auth = useAuth();
-  const user = auth.getUser();
   const getUserType = (id: number) => {
     switch (id) {
       case 1: return "Sisben";

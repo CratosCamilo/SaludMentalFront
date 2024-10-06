@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "/src/css/doc.css";
 import { useAuth } from "../../auth/AuthProvider";
 import Sidebar from "../../components/sidebarDoctor";
@@ -10,8 +10,6 @@ const InicioD: React.FC = () => {
     const [pendingAppointments, setPendingAppointments] = useState<number>(0);
     const [pacienttotal, setPacientTotal] = useState<number>(0);
     const [todayAppointments, setTodayAppointments] = useState<number>(0);
-
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleCantUser = async () => {
         try {
@@ -27,7 +25,6 @@ const InicioD: React.FC = () => {
             setPacientTotal(data);
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Ocurrió un error al obtener la cantidad de usuarios.');
         }
     };
 
@@ -45,7 +42,6 @@ const InicioD: React.FC = () => {
             setTodayAppointments(data);
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Ocurrió un error al obtener las citas.');
         }
     }
 
@@ -63,7 +59,6 @@ const InicioD: React.FC = () => {
             setPendingAppointments(data);
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Ocurrió un error al obtener las consultas.');
         }
     }
 
@@ -78,7 +73,7 @@ const InicioD: React.FC = () => {
             <Sidebar/>
             <div className="main-content">
                 <header>
-                    <h1>Bienvenido, <span id="doctor-name">Dr. Smith</span></h1>
+                    <h1>Bienvenido, <span id="doctor-name">Dr/a {auth.getUser()?.name + " " + auth.getUser()?.lastName}</span></h1>
                 </header>
                 <section className="info-cards">
                     <div className="card">

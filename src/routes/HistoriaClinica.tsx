@@ -1,10 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import "../css/doc.css"; // Asegúrate de que este archivo contenga los estilos necesarios
 
 const HistoriaC: React.FC = () => {
-    const slidersRef = useRef<HTMLDivElement[]>([]);
-    const buttonNextRef = useRef<HTMLImageElement | null>(null);
-    const buttonBeforeRef = useRef<HTMLImageElement | null>(null);
 
     return (
         <>

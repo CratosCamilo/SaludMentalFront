@@ -1,73 +1,25 @@
 import React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Footer from '../../components/footer';
 import Navbar from '../../components/navbar';
 import { useAuth } from "../../auth/AuthProvider";
-import { API_URL } from "../../auth/authConstants";
 
 
-interface Todo {
-    id: string;
-    title: string;
-    completed: boolean;
-}
+
+
 
 const Dashboard: React.FC = () => {
     const auth = useAuth();
 
-    const [todos, setTodos] = useState<Todo[]>([]);
-    const [value, setValue] = useState("");
+    
 
-    async function getTodos() {
-        const accessToken = auth.getAccessToken();
-        try {
-            const response = await fetch(`${API_URL}/posts`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+    
 
-            if (response.ok) {
-                const json = await response.json();
-                setTodos(json);
-                console.log(json);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function createTodo() {
-        if (value.length > 3) {
-            try {
-                const response = await fetch(`${API_URL}/posts`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${auth.getAccessToken()}`,
-                    },
-                    body: JSON.stringify({ title: value }),
-                });
-                if (response.ok) {
-                    const todo = (await response.json()) as Todo;
-                    setTodos([...todos, todo]);
-                }
-            } catch (error) { }
-        }
-    }
-
-    useEffect(() => {
-        getTodos();
+    useEffect(() => {       
     }, []);
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        createTodo();
-    }
-
+    
     return (
         <>
             <Navbar />

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/navbar';
-import Footer from '../../components/footer';
 import { API_URL } from "../../auth/authConstants";
 import Sidebar from '../../components/sidebar';
 

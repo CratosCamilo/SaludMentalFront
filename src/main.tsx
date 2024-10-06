@@ -4,11 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import PrincipalPage from "./routes/principalPage.tsx";
-import ProbarFront from "./routes/secretaria/TareasPendientes.tsx";
 
 // Rutas de Patient
 import Dashboard from "./routes/Patient/dashboard.tsx";
-import OrdenMedica from "./routes/Patient/OrdenMedica.tsx";
+// import OrdenMedica from "./routes/Patient/OrdenMedica.tsx";
 import Calendar from "./routes/Patient/calendar.tsx";
 import HistorialMedico from "./routes/Patient/HistorialMedico.tsx";
 import HistorialPagos from "./routes/Patient/HistorialPagos.tsx";
@@ -42,10 +41,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <PrincipalPage />,
   },
-  {
-    path: "/prueba",
-    element: <ProbarFront />,
-  },
+  
 
   // Rutas protegidas para pacientes (roleId = 4)
   {
@@ -56,10 +52,10 @@ const router = createBrowserRouter([
         path: "/Patient/dashboard",
         element: <Dashboard />,
       },
-      {
-        path: "/orden-medica",
-        element: <OrdenMedica />,
-      },
+      // {
+      //   path: "/orden-medica",
+      //   element: <OrdenMedica />,
+      // },
       {
         path: "/patient/calendar",
         element: <Calendar />,

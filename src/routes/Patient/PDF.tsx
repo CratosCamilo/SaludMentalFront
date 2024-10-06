@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import "../../css/doc.css";
-import { useAuth } from "../../auth/AuthProvider";
-import { API_URL } from "../../auth/authConstants";
-
 interface HistoriaClinica {
   identificacion: string;
   nombre: string;

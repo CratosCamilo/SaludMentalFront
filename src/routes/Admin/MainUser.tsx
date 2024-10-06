@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/sidebar';
 import { useAuth } from '../../auth/AuthProvider';
 import type { UserAdmin } from "../../types/types";
-import requestNewAccessToken from "../../auth/requestNewAccessToken";
 import { API_URL } from '../../auth/authConstants';
 
 // Definición de la interfaz de usuario

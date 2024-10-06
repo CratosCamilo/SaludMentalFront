@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from "../../auth/AuthProvider"; // Esto sigue siendo necesario si usas autenticación
 import Sidebar from '../../components/sidebar'; // Asumo que tu Sidebar ya está hecho
 import './dashboard.css'; // Aquí puedes agregar tu CSS existente

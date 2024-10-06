@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
@@ -12,7 +12,6 @@ import Downshift from 'downshift';
 
 const CalendarSecretary = () => {
     const auth = useAuth();
-    const user = auth.getUser();
     const getUserType = (id: number) => {
         switch (id) {
             case 1: return "Admin";
@@ -23,7 +22,6 @@ const CalendarSecretary = () => {
     };
 
     const [users, setUsers] = useState<UserAdmin[]>([]);
-    const [errorMessage, setErrorMessage] = useState<string>('');
     const [doctors, setDoctors] = useState<{ CC: string; nombre: string; apellido: string; idEspecialidad: string }[]>([]);
     const [services, setServices] = useState<{ idServicio: string; nombreServicio: string; precioServicio: string; idEspecialidad: string }[]>([]);
     const [selectedDoctor, setSelectedDoctor] = useState<string | null>(null);
@@ -189,12 +187,9 @@ const CalendarSecretary = () => {
             const data = await response.json();
             if (response.ok) {
                 setUsers(data.body.data);
-            } else {
-                setErrorMessage(data.error || 'Error al cargar los usuarios');
             }
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Ocurrió un error al cargar los usuarios tablaaaa');
         }
     };
 
@@ -244,7 +239,6 @@ const CalendarSecretary = () => {
                         {({
                             getInputProps,
                             getItemProps,
-                            getLabelProps,
                             getMenuProps,
                             isOpen,
                             inputValue,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { AuthResponse, AuthResponseError } from "../types/types";
 import "../css/login.css";
 import Layout from "../components/layout";
@@ -11,7 +11,6 @@ export default function Login() {
   const [errorResponse, setErrorResponse] = useState("");
 
   const auth = useAuth();
-  const navigate = useNavigate();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
