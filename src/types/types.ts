@@ -49,18 +49,24 @@ export interface Cita {
     hora: string;              
     estadoCita: number;          
     nombrePaciente: string;     
+    apellidoPaciente: string;     
     nombreDoctor: string;       
     apellidoDoctor: string;       
     nombreServicio: string;      
 }
 export interface CitaDoctor{
-    idCita: number;    
-    dia: Date;
-    hora: string;  
-    estadoCita: number;
-    nombreServicio: string;  
-    nombrePaciente: string; 
-    apellidoPaciente: string;
+    idCita: number;            
+    idDocCC: number;          
+    idServicio: number;       
+    idUsuarioCC: number;        
+    dia: Date;                 
+    hora: string;              
+    estadoCita: number;          
+    nombrePaciente: string;     
+    apellidoPaciente: string;     
+    nombreDoctor: string;       
+    apellidoDoctor: string;       
+    nombreServicio: string;
 }
 
 

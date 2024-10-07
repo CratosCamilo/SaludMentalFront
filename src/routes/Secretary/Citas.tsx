@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from '../../auth/AuthProvider';
 import { API_URL } from '../../auth/authConstants';
-import Sidebar from '../../components/sidebar';
+import Sidebar from '../../components/sidebarSecretary';
 import type { Cita } from "../../types/types";
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 
 
-const CitasPaciente: React.FC = () => {
+const CitasOperario: React.FC = () => {
     const auth = useAuth();
     const [citas, setCitas] = useState<Cita[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -16,7 +16,7 @@ const CitasPaciente: React.FC = () => {
     // Cargar citas al cargar la página
     const fetchCitas = async () => {
         try {
-            const response = await fetch(`${API_URL}/Pacient/citas/${auth.getUser()?.username}`, {
+            const response = await fetch(`${API_URL}/Secretary/citas`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -59,7 +59,34 @@ const CitasPaciente: React.FC = () => {
         const date = convertTimeToDate(time); // Convierte la hora a un objeto Date
         return format(date, 'hh:mm a'); // Formato: 02:30 PM
     };
-    const today = new Date();
+    const today = new Date(); // Obtener la fecha actual
+    const toggleCitaState = async (idCita: number) => {
+        const confirmToggle = window.confirm('¿Estás seguro de que deseas cambiar el estado de la cita?');
+
+        if (confirmToggle) {
+            try {
+                const response = await fetch(`${API_URL}/Secretary/toggle-status-cita/${idCita}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${auth.getAccessToken()}`,
+                    },
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+
+                    fetchCitas();
+                } else {
+                    setErrorMessage(data.error || 'Error al actualizar el estado de la cita');
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                setErrorMessage("Ocurrió un error al actualizar el estado de la cita");
+            }
+        }
+    };
+
     return (
         <>
             <Sidebar />
@@ -102,12 +129,13 @@ const CitasPaciente: React.FC = () => {
                                                     padding: '5px 10px',
                                                     cursor: 'pointer',
                                                 }}
+                                                onClick={() => toggleCitaState(cita.idCita)}
                                             >
                                                 {estadoCita}
                                             </button>
                                         </td>
                                         <td>
-                                            <button onClick={() => navigate(`/patient/editar-cita/${cita.idCita}`)}>Editar</button>
+                                            <button onClick={() => navigate(`/secretary/editar-cita/${cita.idCita}`)}>Editar</button>
                                         </td>
                                     </tr>
                                 );
@@ -159,6 +187,7 @@ const CitasPaciente: React.FC = () => {
                                                     padding: '5px 10px',
                                                     cursor: 'pointer',
                                                 }}
+                                                onClick={() => toggleCitaState(cita.idCita)}
                                             >
                                                 {estadoCita}
                                             </button>
@@ -178,8 +207,9 @@ const CitasPaciente: React.FC = () => {
 
                 {errorMessage && <p>{errorMessage}</p>}
             </div>
+
         </>
     );
 };
 
-export default CitasPaciente;
+export default CitasOperario;

@@ -63,9 +63,6 @@ const UserRegistrationPage: React.FC = () => {
       return;
     }
 
-
-
-
     try {
       const response = await fetch(`http://localhost:3000/api/Admin/edit/${NumeroCC}`, {
         method: 'PUT',

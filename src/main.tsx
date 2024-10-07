@@ -14,6 +14,7 @@ import HistorialPagos from "./routes/Patient/HistorialPagos.tsx";
 import ActualizarDatos from "./routes/Patient/ActualizarDatos.tsx";
 import FacturasPendientes from "./routes/Patient/FacturasPendientes.tsx";
 import CitasPaciente from "./routes/Patient/Citas.tsx";
+import EditarCita from "./routes/Patient/EditarCita.tsx";
 
 
 // Rutas de Doctor
@@ -27,6 +28,8 @@ import DashboardA from "./routes/Admin/MainUser.tsx";
 // Rutas de Secretaria
 import PacientesSecretaria from "./routes/Secretary/Pacientes.tsx";
 import CalendarSecretary from "./routes/Secretary/AgendarCita.tsx";
+import CitasOperario from "./routes/Secretary/Citas.tsx";
+import EditarCitaSecretary from "./routes/Secretary/EditarCita.tsx";
 
 // Otras rutas
 import Profile from "./routes/Profile.tsx";
@@ -63,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/patient/citas",
         element: <CitasPaciente />,
+      },
+      {
+        path: "/patient/editar-cita/:appointmentId", // Nueva ruta para EditarCita
+        element: <EditarCita />,
       },
       {
         path: "/patient/historial-medico",
@@ -124,8 +131,16 @@ const router = createBrowserRouter([
         element: <PacientesSecretaria />,
       },
       {
+        path: "/secretary/editar-cita/:appointmentId", 
+        element: <EditarCitaSecretary />,
+      },
+      {
         path: "/secretary/calendar",
         element: <CalendarSecretary />,
+      },
+      {
+        path: "/secretary/citas",
+        element: <CitasOperario />,
       },
     ],
   },

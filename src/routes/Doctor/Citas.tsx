@@ -57,7 +57,7 @@ const Citas: React.FC = () => {
         const date = convertTimeToDate(time); // Convierte la hora a un objeto Date
         return format(date, 'hh:mm a'); // Formato: 02:30 PM
     };
-
+    const today = new Date();
     return (
         <>
             <Sidebar />
@@ -66,49 +66,115 @@ const Citas: React.FC = () => {
                     <h1>CITAS DR/A {auth.getUser()?.name.toUpperCase() + " " + auth.getUser()?.lastName.toUpperCase()}</h1>
                 </header>
                 <section className="recent-appointments">
+                    <h2>Citas Pendientes</h2>
                     <table border={1}>
                         <thead>
                             <tr>
-                                <th>Paciente</th>
+                                <th>Doctor</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
-                                <th>Doctor</th>
+                                <th>Paciente</th>
                                 <th>Servicio</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="appointments-list">
-                            {citas.map(cita => (
-                                <tr key={cita.idCita}>
-                                    <td>{cita.nombrePaciente + " " + cita.apellidoPaciente}</td>
-                                    <td>{formattedDate(cita.dia)}</td>
-                                    <td>{formattedTime(cita.hora)}</td>
-                                    <td>{auth.getUser()?.name + " " + auth.getUser()?.lastName}</td>
-                                    <td>{cita.nombreServicio}</td>
-                                    <td><button
-                                        style={{
-                                            backgroundColor: cita.estadoCita === 1 ? '#80b929' : '#b92938',
-                                            color: 'white',
-                                            border: 'none',
-                                            padding: '5px 10px',
-                                            cursor: 'pointer',
-                                        }}
+                            {citas.filter(cita => cita.estadoCita === 1 && new Date(cita.dia) >= today).map(cita => {
+                                const estadoCita = 'Activa';
+                                const backgroundColor = '#f7d47c'; // Amarillo
 
-                                    >
-                                        {cita.estadoCita === 1 ? 'Activo' : 'Inactivo'}
-                                    </button></td>
-                                    <td>
-                                        <a href={`historia-clinica.html?patient=${cita.idCita}`}>
-                                            <button>Ver</button>
-                                        </a>
-                                    </td>
-                                </tr>
-                            ))}
+                                return (
+                                    <tr key={cita.idCita}>
+                                        <td>{cita.nombreDoctor + " " + cita.apellidoDoctor}</td>
+                                        <td>{formattedDate(cita.dia)}</td>
+                                        <td>{formattedTime(cita.hora)}</td>
+                                        <td>{cita.nombrePaciente + " " + cita.apellidoPaciente}</td>
+                                        <td>{cita.nombreServicio}</td>
+                                        <td>
+                                            <button
+                                                style={{
+                                                    backgroundColor: backgroundColor,
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    padding: '5px 10px',
+                                                    cursor: 'pointer',
+                                                }}
+                                            >
+                                                {estadoCita}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button>Editar</button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
-                    {errorMessage && <p>{errorMessage}</p>}
                 </section>
+                {/* Citas Canceladas o Realizadas */}
+                <section className="recent-appointments">
+                    <h2>Citas Canceladas o Realizadas</h2>
+                    <table border={1}>
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Paciente</th>
+                                <th>Servicio</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointments-list">
+                            {citas.filter(cita => cita.estadoCita === 0 || new Date(cita.dia) < today).map(cita => {
+                                let estadoCita;
+                                let backgroundColor;
+
+                                if (cita.estadoCita === 0) {
+                                    estadoCita = 'Cancelada';
+                                    backgroundColor = '#b92938'; // Rojo
+                                } else {
+                                    estadoCita = 'Realizada';
+                                    backgroundColor = '#80b929'; // Verde
+                                }
+
+                                return (
+                                    <tr key={cita.idCita}>
+                                        <td>{cita.nombreDoctor + " " + cita.apellidoDoctor}</td>
+                                        <td>{formattedDate(cita.dia)}</td>
+                                        <td>{formattedTime(cita.hora)}</td>
+                                        <td>{cita.nombrePaciente + " " + cita.apellidoPaciente}</td>
+                                        <td>{cita.nombreServicio}</td>
+                                        <td>
+                                            <button
+                                                style={{
+                                                    backgroundColor: backgroundColor,
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    padding: '5px 10px',
+                                                    cursor: 'pointer',
+                                                }}
+                                            >
+                                                {estadoCita}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button>Editar</button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </section>
+
+                {/* Citas Futuras */}
+                
+
+                {errorMessage && <p>{errorMessage}</p>}
             </div>
         </>
     );

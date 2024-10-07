@@ -37,9 +37,9 @@ const SidebarDoctor: React.FC = () => {
             <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
             <h2>Médico</h2>
             <ul>
-                <li><a href="./dashboard">Inicio</a></li>
-                <li><a href="./pacientes">Pacientes</a></li>
-                <li><a href="./citas">Citas</a></li>
+                <li><a href="/Doctor/dashboard">Inicio</a></li>
+                <li><a href="/Doctor/pacientes">Pacientes</a></li>
+                <li><a href="/Doctor/citas">Citas</a></li>
             </ul>
         </div>
     );

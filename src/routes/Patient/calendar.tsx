@@ -7,14 +7,17 @@ import { useAuth } from "../../auth/AuthProvider";
 import { API_URL } from "../../auth/authConstants";
 import Sidebar from '../../components/sidebar';
 import { es } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 
 const Calendar = () => {
   const auth = useAuth();
-  const getUserType = (id: number) => {
-    switch (id) {
-      case 1: return "Sisben";
-      case 2: return "Afiliado";
-      case 3: return "Particular";
+  const navigate = useNavigate();
+  const getUserType = (roleId: number) => {
+    switch (roleId) {
+      case 1: return "Admin";
+      case 2: return "Operario";
+      case 3: return "Doctor";
+      case 4: return "Paciente";
       default: return "Desconocido";
     }
   };
@@ -154,7 +157,7 @@ const Calendar = () => {
 
         if (response.ok) {
           alert(`Cita agendada con éxito con el Dr./Dra. ${doctors.find(doctor => String(doctor.CC) === String(selectedDoctor))?.nombre} para el ${formattedDate} a las ${formattedTime}`);
-          window.location.reload();
+          navigate(`/patient/citas`)
         } else {
           alert(`Error al agendar la cita: ${data.message}`);
         }

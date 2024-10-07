@@ -37,8 +37,9 @@ const SidebarSecretary: React.FC = () => {
             <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
             <h2>Operario</h2>
             <ul>                
-                <li><a href="./pacientes">Pacientes</a></li>
-                <li><a href="./calendar">Agendar Cita</a></li>
+                <li><a href="/secretary/pacientes">Pacientes</a></li>
+                <li><a href="/secretary/calendar">Agendar Cita</a></li>
+                <li><a href="/secretary/citas">Citas</a></li>
             </ul>
         </div>
     );
