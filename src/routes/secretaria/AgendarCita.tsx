@@ -15,7 +15,7 @@ const AgendarCitas: React.FC = () => {
     const [newPatientName, setNewPatientName] = useState<string>("");
     const [newDate, setNewDate] = useState<string>("");
 
-    // Fetch existing appointments
+
     async function fetchAppointments() {
         const accessToken = auth.getAccessToken();
         try {
