@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/sidebarSecretary';
+import Sidebar from '../../components/sidebar';
 import { useAuth } from '../../auth/AuthProvider';
 import type { UserAdmin } from "../../types/types";
 import { API_URL } from '../../auth/authConstants';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  TablePagination,
-} from '@mui/material';
 
 // Definición de la interfaz de usuario
 
@@ -38,25 +27,11 @@ const UserRegistrationPage: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-
-
-  const handleChangePage = (_event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   const auth = useAuth();
   // Cargar usuarios al cargar la página
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`${API_URL}/Secretary/select`, {
+      const response = await fetch(`${API_URL}/Admin/select`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -83,13 +58,10 @@ const UserRegistrationPage: React.FC = () => {
     e.preventDefault();
 
     // Validación de campos requeridos
-    if (NumeroCC === undefined || !Nombre || !Apellido || !email || !password || !rol) {
+    if (NumeroCC === undefined || !Nombre || !Apellido || !email || !password || !rol ) {
       setErrorMessage('Todos los campos son obligatorios');
       return;
     }
-
-
-
 
     try {
       const response = await fetch(`http://localhost:3000/api/Admin/edit/${NumeroCC}`, {
@@ -278,62 +250,51 @@ const UserRegistrationPage: React.FC = () => {
             <button onClick={() => { resetForm(); setModalOpen(true); }}>Registrar Usuario</button>
           </div>
 
-          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 1440 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead >
-                  <TableRow>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Cédula</TableCell>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Nombre</TableCell>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Rol</TableCell>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Email</TableCell>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Hoja de vida</TableCell>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Estado</TableCell>
-                    <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Acciones</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((user) => (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={user.CC}>
-                        <TableCell>{user.CC}</TableCell>
-                        <TableCell>{user.nombreUsuario} {user.apellidoUsuario}</TableCell>
-                        <TableCell>{getUserType(user.idRol)}</TableCell>
-                        <TableCell>{user.emailUsuario}</TableCell>
-                        <TableCell>
-                          <Button variant="contained" onClick={() => (user.CC)}>Ver</Button>
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: user.estadoUsuario === 1 ? '#80b929' : '#d9534f',
-                              color: '#fff',
-                            }}
-                            onClick={() => toggleUserState(user.CC)}
-                          >
-                            {user.estadoUsuario === 1 ? 'Activo' : 'Inactivo'}
-                          </Button>
-                        </TableCell>
-                        <TableCell>
-                          <Button variant="outlined" onClick={() => handleEdit(user.CC)}>Editar</Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={users.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
+          <table border={1}>
+            <thead>
+              <tr>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Email</th>
+                <th>Hoja de vida</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.CC}>
+                  <td>{user.CC}</td>
+                  <td>{user.nombreUsuario} {user.apellidoUsuario}</td>
+                  <td>{getUserType(user.idRol)}</td>
+                  <td>{user.emailUsuario}</td>
+                  <td><button
+                    
+                    onClick={() => (user.CC)}>Ver</button></td>
+                  <td>
+                    <button
+                      style={{
+                        backgroundColor: user.estadoUsuario === 1 ? '#80b929' : '#b92938',
+                        color: 'white',
+                        border: 'none',
+                        padding: '5px 10px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => toggleUserState(user.CC)}
+                    >
+                      {user.estadoUsuario === 1 ? 'Activo' : 'Inactivo'}
+                    </button>
+                  </td>
+
+                  <td>
+                    <button onClick={() => handleEdit(user.CC)}>Editar</button>
+
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
@@ -403,7 +364,7 @@ const UserRegistrationPage: React.FC = () => {
                       required
                     />
                   </div>
-                  <div style={{ display: "none" }}>
+                  <div>
                     <label>Rol: </label>
                     <input
                       type="text"

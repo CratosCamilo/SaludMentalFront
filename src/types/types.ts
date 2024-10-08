@@ -27,17 +27,17 @@ export interface User {
     patientTypeId: number;  // Corresponde a idTipoPaciente
 }
 export interface UserAdmin {
-    CC: number;       // Corresponde a CC
-    nombreUsuario: string;           // Corresponde a nombreUsuario
-    apellidoUsuario: string;       // Corresponde a apellidoUsuario
-    emailUsuario: string;          // Corresponde a emailUsuario
+    CC: number;
+    nombreUsuario: string;
+    apellidoUsuario: string;
+    emailUsuario: string;
     pwdUsuario: string;
-    idSede: number;         // Corresponde a idSede
-    idRol: number;         // Corresponde a idRol
-    estadoUsuario: number;         // Corresponde a estadoUsuario
-    idEspecialidad: number;   // Corresponde a idEspecialidad (opcional)
-    idHoja_Vida: number;   // Corresponde a idHoja_Vida (opcional)
-    idTipoPaciente: number;  // Corresponde a idTipoPaciente
+    idSede: number;
+    idRol: number;
+    estadoUsuario: number;
+    idEspecialidad: number;
+    idHoja_Vida: number;
+    idTipoPaciente: number;
 }
 
 export interface Cita {

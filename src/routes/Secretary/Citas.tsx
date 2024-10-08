@@ -6,9 +6,43 @@ import type { Cita } from "../../types/types";
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Button,
+    TablePagination,
+} from '@mui/material';
 
 
 const CitasOperario: React.FC = () => {
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page2, setPage2] = React.useState(0);
+    const [rowsPerPage2, setRowsPerPage2] = React.useState(5);
+
+
+
+    const handleChangePage = (_event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+    const handleChangePage2 = (_event: unknown, newPage: number) => {
+        setPage2(newPage);
+    };
+
+    const handleChangeRowsPerPage2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage2(+event.target.value);
+        setPage2(0);
+    };
     const auth = useAuth();
     const [citas, setCitas] = useState<Cita[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -59,7 +93,7 @@ const CitasOperario: React.FC = () => {
         const date = convertTimeToDate(time); // Convierte la hora a un objeto Date
         return format(date, 'hh:mm a'); // Formato: 02:30 PM
     };
-    const today = new Date(); // Obtener la fecha actual
+    
     const toggleCitaState = async (idCita: number) => {
         const confirmToggle = window.confirm('¿Estás seguro de que deseas cambiar el estado de la cita?');
 
@@ -96,110 +130,150 @@ const CitasOperario: React.FC = () => {
                 </header>
                 <section className="recent-appointments">
                     <h2>Citas Pendientes</h2>
-                    <table border={1}>
-                        <thead>
-                            <tr>
-                                <th>Doctor</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Paciente</th>
-                                <th>Servicio</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="appointments-list">
-                            {citas.filter(cita => cita.estadoCita === 1 && new Date(cita.dia) >= today).map(cita => {
-                                const estadoCita = 'Activa';
-                                const backgroundColor = '#f7d47c'; // Amarillo
+                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <TableContainer sx={{ maxHeight: 1440 }}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead >
+                                    <TableRow>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Doctor</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Fecha</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Hora</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Paciente</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Servicio</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Estado</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Acciones</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {citas
+                                        .filter(cita => {
+                                            const fechaCita = new Date(cita.dia); // Fecha de la cita
+                                            const horaCita = cita.hora.split(':'); // Divide la hora en [hh, mm, ss]
+                                            const fechaHoraCita = new Date(fechaCita); // Crea una nueva fecha con la misma fecha de la cita
+                                            fechaHoraCita.setHours(Number(horaCita[0]), Number(horaCita[1]), 0, 0); // Ajusta la hora, minutos y segundos
+                                        
+                                            // Verifica que la cita esté activa y que la fecha y hora de la cita sean futuras o iguales a ahora
+                                            return cita.estadoCita === 1 && fechaHoraCita >= new Date();
+                                        })                                        
+                                        .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
+                                        .map(cita => {
+                                            const estadoCita = 'Activa';
+                                            const backgroundColor = '#f7d47c';
+                                            return (
 
-                                return (
-                                    <tr key={cita.idCita}>
-                                        <td>{cita.nombreDoctor + " " + cita.apellidoDoctor}</td>
-                                        <td>{formattedDate(cita.dia)}</td>
-                                        <td>{formattedTime(cita.hora)}</td>
-                                        <td>{cita.nombrePaciente + " " + cita.apellidoPaciente}</td>
-                                        <td>{cita.nombreServicio}</td>
-                                        <td>
-                                            <button
-                                                style={{
-                                                    backgroundColor: backgroundColor,
-                                                    color: 'white',
-                                                    border: 'none',
-                                                    padding: '5px 10px',
-                                                    cursor: 'pointer',
-                                                }}
-                                                onClick={() => toggleCitaState(cita.idCita)}
-                                            >
-                                                {estadoCita}
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => navigate(`/secretary/editar-cita/${cita.idCita}`)}>Editar</button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={cita.idCita}>
+                                                    <TableCell>{cita.nombreDoctor} {cita.apellidoDoctor}</TableCell>
+                                                    <TableCell>{formattedDate(cita.dia)}</TableCell>
+                                                    <TableCell>{formattedTime(cita.hora)}</TableCell>
+                                                    <TableCell>{cita.nombrePaciente} {cita.apellidoPaciente}</TableCell>
+                                                    <TableCell> {cita.nombreServicio}</TableCell>
+                                                    <TableCell> <Button
+                                                        style={{
+                                                            backgroundColor: backgroundColor,
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            padding: '5px 10px',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                        onClick={() => toggleCitaState(cita.idCita)}
+                                                    >
+                                                        {estadoCita}
+                                                    </Button></TableCell>
+                                                    <TableCell> <Button variant="outlined" onClick={() => navigate(`/secretary/editar-cita/${cita.idCita}`)}>Editar</Button> </TableCell>
+                                                </TableRow>
+                                            )
+                                        })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={citas.length}
+                            rowsPerPage={rowsPerPage2}
+                            page={page2}
+                            onPageChange={handleChangePage2}
+                            onRowsPerPageChange={handleChangeRowsPerPage2}
+                        />
+                    </Paper>
                 </section>
                 {/* Citas Canceladas o Realizadas */}
                 <section className="recent-appointments">
                     <h2>Citas Canceladas o Realizadas</h2>
-                    <table border={1}>
-                        <thead>
-                            <tr>
-                                <th>Doctor</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Paciente</th>
-                                <th>Servicio</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="appointments-list">
-                            {citas.filter(cita => cita.estadoCita === 0 || new Date(cita.dia) < today).map(cita => {
-                                let estadoCita;
-                                let backgroundColor;
+                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <TableContainer sx={{ maxHeight: 1440 }}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead >
+                                    <TableRow>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Doctor</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Fecha</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Hora</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Paciente</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Servicio</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Estado</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Acciones</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {citas
+                                        .filter(cita => {
+                                            const fechaCita = new Date(cita.dia); // Fecha de la cita
+                                            const horaCita = cita.hora.split(':'); // Divide la hora en [hh, mm, ss]
+                                            const fechaHoraCita = new Date(fechaCita); // Crea una nueva fecha con la misma fecha de la cita
+                                            fechaHoraCita.setHours(Number(horaCita[0]), Number(horaCita[1]), 0, 0); // Ajusta la hora, minutos y segundos
+                                        
+                                            // Verifica que la cita esté cancelada o que la fecha y hora de la cita sean pasadas
+                                            return cita.estadoCita === 0 || fechaHoraCita < new Date();
+                                        })                                        
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map(cita => {
+                                            let estadoCita;
+                                            let backgroundColor;
 
-                                if (cita.estadoCita === 0) {
-                                    estadoCita = 'Cancelada';
-                                    backgroundColor = '#b92938'; // Rojo
-                                } else {
-                                    estadoCita = 'Realizada';
-                                    backgroundColor = '#80b929'; // Verde
-                                }
+                                            if (cita.estadoCita === 0) {
+                                                estadoCita = 'Cancelada';
+                                                backgroundColor = '#b92938'; // Rojo
+                                            } else {
+                                                estadoCita = 'Realizada';
+                                                backgroundColor = '#80b929'; // Verde
+                                            }
+                                            return (
 
-                                return (
-                                    <tr key={cita.idCita}>
-                                        <td>{cita.nombreDoctor + " " + cita.apellidoDoctor}</td>
-                                        <td>{formattedDate(cita.dia)}</td>
-                                        <td>{formattedTime(cita.hora)}</td>
-                                        <td>{cita.nombrePaciente + " " + cita.apellidoPaciente}</td>
-                                        <td>{cita.nombreServicio}</td>
-                                        <td>
-                                            <button
-                                                style={{
-                                                    backgroundColor: backgroundColor,
-                                                    color: 'white',
-                                                    border: 'none',
-                                                    padding: '5px 10px',
-                                                    cursor: 'pointer',
-                                                }}
-                                                onClick={() => toggleCitaState(cita.idCita)}
-                                            >
-                                                {estadoCita}
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => alert("Solo se pueden editar citas pendientes")}>Editar</button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={cita.idCita}>
+                                                    <TableCell>{cita.nombreDoctor} {cita.apellidoDoctor}</TableCell>
+                                                    <TableCell>{formattedDate(cita.dia)}</TableCell>
+                                                    <TableCell>{formattedTime(cita.hora)}</TableCell>
+                                                    <TableCell>{cita.nombrePaciente} {cita.apellidoPaciente}</TableCell>
+                                                    <TableCell> {cita.nombreServicio}</TableCell>
+                                                    <TableCell> <Button
+                                                        style={{
+                                                            backgroundColor: backgroundColor,
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            padding: '5px 10px',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                        onClick={() => toggleCitaState(cita.idCita)}
+                                                    >
+                                                        {estadoCita}
+                                                    </Button></TableCell>
+                                                    <TableCell> <Button variant="outlined" onClick={() => alert("Solo se pueden editar citas pendientes")}>Editar</Button> </TableCell>
+                                                </TableRow>
+                                            )
+                                        })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={citas.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Paper>
                 </section>
 
                 {/* Citas Futuras */}
