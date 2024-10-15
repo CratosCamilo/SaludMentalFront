@@ -135,13 +135,13 @@ const CitasOperario: React.FC = () => {
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead >
                                     <TableRow>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Doctor</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Fecha</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Hora</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Paciente</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Servicio</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Estado</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Acciones</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', maxWidth: 10 }}>Doctor</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', maxWidth: 10 }}>Fecha</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', maxWidth: 10 }}>Hora</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', maxWidth: 10 }}>Paciente</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', maxWidth: 10 }}>Servicio</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', maxWidth: 10 }}>Estado</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' , maxWidth: 10}}>Acciones</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -158,7 +158,7 @@ const CitasOperario: React.FC = () => {
                                         .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
                                         .map(cita => {
                                             const estadoCita = 'Activa';
-                                            const backgroundColor = '#f7d47c';
+                                            const backgroundColor = '#f7e07c';
                                             return (
 
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={cita.idCita}>
@@ -174,6 +174,7 @@ const CitasOperario: React.FC = () => {
                                                             border: 'none',
                                                             padding: '5px 10px',
                                                             cursor: 'pointer',
+                                                            width: 100
                                                         }}
                                                         onClick={() => toggleCitaState(cita.idCita)}
                                                     >
@@ -205,13 +206,13 @@ const CitasOperario: React.FC = () => {
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead >
                                     <TableRow>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Doctor</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Fecha</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Hora</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Paciente</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Servicio</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Estado</TableCell>
-                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' }}>Acciones</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', minWidth: 100 }}>Doctor</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', minWidth: 100 }}>Fecha</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' , minWidth: 100}}>Hora</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', minWidth: 100 }}>Paciente</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', minWidth: 100 }}>Servicio</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white', minWidth: 100 }}>Estado</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#2980b9', color: 'white' , minWidth: 100}}>Acciones</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -252,6 +253,7 @@ const CitasOperario: React.FC = () => {
                                                             border: 'none',
                                                             padding: '5px 10px',
                                                             cursor: 'pointer',
+                                                            width: 100
                                                         }}
                                                         onClick={() => toggleCitaState(cita.idCita)}
                                                     >

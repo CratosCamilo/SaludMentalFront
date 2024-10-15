@@ -14,7 +14,7 @@ export default function Dashboard() {
             case 4: return "Paciente";
             default: return "Desconocido";
         }
-    };  
+    };
 
     // Panel de Bienestar
     const [estadoAnimo, setEstadoAnimo] = useState(4); // Estado de ánimo por defecto
@@ -58,11 +58,15 @@ export default function Dashboard() {
                                     className={`estado-btn ${estadoAnimo === nivel ? 'activo' : ''}`}
                                     onClick={() => cambiarEstadoAnimo(nivel)}
                                 >
-                                    {nivel}
+                                    {nivel === 1 && '😢'}
+                                    {nivel === 2 && '😕'}
+                                    {nivel === 3 && '😐'}
+                                    {nivel === 4 && '🙂'}
+                                    {nivel === 5 && '😁'}
                                 </button>
                             ))}
                         </div>
-                        <p>Tu nivel actual de bienestar es: {estadoAnimo}</p>
+                        <p>Tu nivel actual de bienestar es: {['Muy triste', 'Triste', 'Neutral', 'Feliz', 'Muy feliz'][estadoAnimo - 1]}</p>
                     </div>
 
                     {/* Agenda de Citas */}

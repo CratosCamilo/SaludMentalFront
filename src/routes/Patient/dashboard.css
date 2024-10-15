@@ -149,17 +149,16 @@
 }
 
 .estado-btn {
-  background-color: #ccc;
+  background: none;
   border: none;
-  padding: 10px 20px;
-  border-radius: 50%;
+  font-size: 40px; /* Tamaño de los emojis */
   cursor: pointer;
 }
 
 .estado-btn.activo {
-  background-color: #0cc0df; /* Color azul claro */
-  color: white;
+  transform: scale(1.2); /* Efecto de agrandado cuando está activo */
 }
+
 
 .agenda-citas ul {
   list-style: none;

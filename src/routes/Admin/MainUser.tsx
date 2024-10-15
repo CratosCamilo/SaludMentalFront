@@ -307,6 +307,7 @@ const UserRegistrationPage: React.FC = () => {
                             style={{
                               backgroundColor: user.estadoUsuario === 1 ? '#80b929' : '#d9534f',
                               color: '#fff',
+                              width: 100
                             }}
                             onClick={() => toggleUserState(user.CC)}
                           >
