@@ -1,37 +1,105 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../css/principalPage.css";
 import { useAuth } from "../auth/AuthProvider";
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+
+import "slick-carousel/slick/slick-theme.css";
+
+
+var settings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 4,
+  initialSlide: 0,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        initialSlide: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+  ]
+};
 
 const professionals = [
   {
     id: 1,
-    name: "Claudia Mendoza",
-    title: "Terapeuta Familiar",
-    review: "En nuestra clínica, los terapeutas familiares ayudan a mejorar la comunicación y resolver conflictos entre los miembros de la familia. A través de sesiones de terapia, brindan apoyo para fortalecer las relaciones y promover el bienestar emocional de toda la familia.",
-    image: "images/CLAU.jfif",
+    name: "Ana Gomez",
+    title: "Consulta y diagnósticos",
+    review: "Ana Gómez se dedica a realizar evaluaciones psicológicas detalladas y precisas. Su experiencia en diagnósticos permite ofrecer a los pacientes un entendimiento claro de sus condiciones y la mejor ruta a seguir hacia su tratamiento y bienestar.",
+    image: "images/Ana Gomez.jpg",
   },
   {
     id: 2,
-    name: "Daniel Reyes",
-    title: "Psiquiatra",
-    review: "En nuestra clínica, los psiquiatras son médicos especializados en el diagnóstico, tratamiento y prevención de trastornos mentales y emocionales. Utilizan una combinación de terapias, incluyendo la medicación y el asesoramiento, para ayudar a los pacientes a mejorar su salud mental y su bienestar general.",
-    image: "images/Da.jpg",
+    name: "Carlos Pérez",
+    title: "Psicoterapia",
+    review: "Esta especializado en ayudar a las personas a entender y manejar sus emociones y comportamientos. Utiliza diversas técnicas terapéuticas basadas en la evidencia para abordar problemas emocionales y mentales, apoyando a los pacientes en su camino hacia el bienestar y una mejor calidad de vida.",
+    image: "images/Carlos Perez.jpg",
   },
   {
     id: 3,
-    name: "Luis Rojas",
-    title: "Psicólogo",
-    review: "Los psicólogos son profesionales especializados en ayudar a las personas a entender y manejar sus emociones y comportamientos. Utilizan diversas técnicas terapéuticas basadas en la evidencia para abordar problemas emocionales y mentales, apoyando a los pacientes en su camino hacia el bienestar y una mejor calidad de vida.",
-    image: "images/lu.jpg",
+    name: "Eugenio Hurtado",
+    title: "Psicoterapia",
+    review: "Con un enfoque centrado en el paciente, Eugenio Hurtado se especializa en brindar apoyo psicológico a aquellos que enfrentan desafíos emocionales. Su metodología combina técnicas tradicionales y enfoques modernos, fomentando un espacio seguro para la sanación y el autodescubrimiento.",
+    image: "images/Eugenio Hurtado.jpg",
   },
   {
     id: 4,
-    name: "Gloria Carrascal",
-    title: "Psicóloga",
-    review: "Especialista en salud mental que se centra en comprender el comportamiento humano y los procesos mentales. Utiliza técnicas de terapia para ayudar a las personas a enfrentar problemas como la ansiedad, la depresión, el estrés y otros desafíos emocionales, proporcionando apoyo y orientación para mejorar su calidad de vida.",
-    image: "images/Glo.jpg",
-  }
+    name: "Maria Lopez",
+    title: "Emergencias",
+    review: "Con una sólida formación en atención de emergencias, María López está preparada para abordar situaciones críticas en salud mental. Su dedicación y habilidad para escuchar permiten ofrecer un refugio seguro en momentos de angustia.",
+    image: "images/Maria Lopez.jpg",
+  },
+  {
+    id: 5,
+    name: "Jessica Dulcey",
+    title: "Emergencias",
+    review: "Jessica Dulcey es una experta en manejo de crisis y emergencias psicológicas. Su rápida intervención y enfoque empático son cruciales para ayudar a las personas en momentos de necesidad, brindando apoyo inmediato y efectivo..",
+    image: "images/Jessica Dulcey.jpg",
+  },
+  {
+    id: 6,
+    name: "Pedro Pe",
+    title: "Consulta y diagnósticos",
+    review: "Pedro Pe ofrece un enfoque integral en la evaluación y diagnóstico de trastornos mentales. Su compromiso es proporcionar a cada paciente un plan de acción claro que les permita avanzar hacia una vida más plena y satisfactoria.",
+    image: "images/Pedro Pe.jpg",
+  },
+  {
+    id: 7,
+    name: "Polimardo Buenardopolis",
+    title: "Tratamientos",
+    review: "Polimardo Buenardopolis se especializa en diseñar tratamientos personalizados para cada paciente. Su experiencia en diversas modalidades terapéuticas asegura que cada persona reciba el apoyo necesario para abordar sus desafíos y alcanzar sus objetivos de salud mental.",
+    image: "images/Polimardo Buenardopolis.jpg",
+  },
+  {
+    id: 8,
+    name: "Luis Ramirez",
+    title: "Tratamientos",
+    review: "Luis Ramírez se especializa en ofrecer tratamientos integrales y adaptados a las necesidades de cada paciente. Con un enfoque basado en la evidencia, trabaja en colaboración con los pacientes para desarrollar estrategias efectivas que promuevan su bienestar emocional y psicológico, ayudándoles a superar obstáculos y alcanzar una vida más equilibrada.",
+    image: "images/Luis Ramirez.jpg",
+  },
 ];
 
 const PrincipalPage: React.FC = () => {
@@ -200,12 +268,26 @@ const PrincipalPage: React.FC = () => {
       setErrorResponse("Ocurrió un error al intentar registrarse.");
     }
   };
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === professionals.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const previousSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? professionals.length - 1 : prevIndex - 1
+    );
+  };
 
 
 
   return (
     <>
+
       <header className="hero">
+
         <nav className="nav__container">
           <div className="nav-logo">
             <img src="../images/logo333.png" alt="Logo" className="navbar-logo" />
@@ -417,44 +499,21 @@ const PrincipalPage: React.FC = () => {
           </div>
         </section>
 
-        <section className="professionals">
-          <div className="professionals__container container">
-            <img
-              src="images/izquierda.svg"
-              alt="Flecha izquierda"
-              className="professionals__arrow"
-              id="before"
-              ref={buttonBeforeRef}
-            />
-
-            {professionals.map((professional, index) => (
-              <section
-                key={professional.id}
-                className={`professionals__body ${index === 0 ? "professionals__body--show" : ""}`}
-                ref={(el) => el && slidersRef.current.push(el as HTMLDivElement)}
-                data-id={professional.id}
-              >
-                <div className="professionals__texts">
-                  <h2 className="subtitle">{professional.name}</h2>
-                  <h1 className="professionals__course">{professional.title}</h1>
-                  <p className="professionals__review">{professional.review}</p>
-                </div>
-                <figure className="professionals__picture">
-                  <img src={professional.image} alt={professional.name} className="professionals__img" />
-                </figure>
-              </section>
+        <section className="professionals__section">
+          <h2 className="professionals__title">Conoce a Nuestros Profesionales</h2>
+          <Slider {...settings}>
+            {professionals.map((professional) => (
+              <div key={professional.id} className="professional__card">
+                <img src={professional.image} alt={professional.name} className="professional__image" />
+                <h3 className="professional__name">{professional.name}</h3>
+                <p className="professional__title">{professional.title}</p>
+                <p className="professional__review">{professional.review}</p>
+              </div>
             ))}
-
-            <img
-              src="images/derecha.svg"
-              alt="Flecha derecha"
-              className="professionals__arrow"
-              id="next"
-              ref={buttonNextRef}
-            />
-          </div>
+          </Slider>
         </section>
       </main>
+
     </>
   );
 };
