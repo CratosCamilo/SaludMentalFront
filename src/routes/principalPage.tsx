@@ -268,19 +268,6 @@ const PrincipalPage: React.FC = () => {
       setErrorResponse("Ocurrió un error al intentar registrarse.");
     }
   };
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === professionals.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const previousSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? professionals.length - 1 : prevIndex - 1
-    );
-  };
-
 
 
   return (

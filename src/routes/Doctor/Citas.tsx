@@ -148,6 +148,7 @@ const Citas: React.FC = () => {
                                                             border: 'none',
                                                             padding: '5px 10px',
                                                             cursor: 'pointer',
+                                                            width: 100
                                                         }}
                                                     >
                                                         {estadoCita}
@@ -225,6 +226,7 @@ const Citas: React.FC = () => {
                                                             border: 'none',
                                                             padding: '5px 10px',
                                                             cursor: 'pointer',
+                                                            width: 100
                                                         }}
                                                     >
                                                         {estadoCita}
