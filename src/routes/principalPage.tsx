@@ -4,6 +4,9 @@ import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
+import {  
+  Button  
+} from '@mui/material';
 
 import "slick-carousel/slick/slick-theme.css";
 
@@ -369,8 +372,8 @@ const PrincipalPage: React.FC = () => {
             </li>
           </ul>
           <div className="nav__buttons">
-            <a href="#" className="nav__button--login" onClick={handleLoginClick}>Iniciar sesión</a>
-            <a href="#" className="nav__button--register" onClick={handleRegisterClick}>Registrarse</a>
+            <Button variant="contained" onClick={handleLoginClick}>Iniciar sesión</Button>
+            <Button variant="contained" onClick={handleRegisterClick}>Registrarse</Button>
           </div>
         </nav>
 
