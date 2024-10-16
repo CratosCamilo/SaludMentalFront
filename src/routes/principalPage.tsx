@@ -279,20 +279,104 @@ const PrincipalPage: React.FC = () => {
           <div className="nav-logo">
             <img src="../images/logo333.png" alt="Logo" className="navbar-logo" />
           </div>
-          <ul className="nav__link">
-            <li className="nav_items"><a href="#" className="nav_links">Inicio</a></li>
-            <li className="nav_items"><a href="#" className="nav_links">Agendar cita</a></li>
-            <li className="nav_items"><a href="#" className="nav_links">Sobre nosotros</a></li>
-            <li className="nav_items"><a href="#" className="nav_links">Nuestros servicios</a></li>
+          <ul className="nav__links"> {/* Cambiado a "nav__links" para mantener la convención */}
+            <li className="nav_items">
+              <a
+                href="#"
+                className="nav__link"
+                onClick={(e) => {
+                  e.preventDefault(); // Evita que se recargue la página
+                  const section = document.getElementById("inicio");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+              >
+                Inicio
+              </a>
+            </li>
+            <li className="nav_items">
+              <a
+                href="#"
+                className="nav__link"
+                onClick={(e) => {
+                  e.preventDefault(); // Evita que se recargue la página
+                  const section = document.getElementById("sobre-nosotros");
+
+                  if (section) {
+                    const navbar = document.querySelector('.nav__container') as HTMLElement; // Afirmación de tipo
+
+                    if (navbar) { // Verifica que el navbar exista
+                      const navbarHeight = navbar.offsetHeight; // Obtiene la altura del navbar
+                      const sectionTop = section.getBoundingClientRect().top + window.scrollY; // Posición de la sección
+                      window.scrollTo({
+                        top: sectionTop - navbarHeight, // Resta la altura del navbar
+                        behavior: "smooth"
+                      });
+                    } else {
+                      console.error("Navbar no encontrado.");
+                    }
+                  }
+                }}
+              >
+                Sobre nosotros
+              </a>
+            </li>
+
+
+            <li className="nav_items">
+              <a
+                href="#"
+                className="nav__link"
+                onClick={(e) => {
+                  e.preventDefault(); // Evita que se recargue la página
+                  const section = document.getElementById("services");
+
+                  if (section) {
+                    const navbar = document.querySelector('.nav__container') as HTMLElement; // Afirmación de tipo
+
+                    if (navbar) { // Verifica que el navbar exista
+                      const navbarHeight = navbar.offsetHeight; // Obtiene la altura del navbar
+                      const sectionTop = section.getBoundingClientRect().top + window.scrollY; // Posición de la sección
+                      window.scrollTo({
+                        top: sectionTop - navbarHeight, // Resta la altura del navbar
+                        behavior: "smooth"
+                      });
+                    } else {
+                      console.error("Navbar no encontrado.");
+                    }
+                  }
+                }}
+              >
+                Nuestros servicios
+              </a>
+            </li>
+
+            <li className="nav_items">
+              <a
+                href="#"
+                className="nav__link"
+                onClick={(e) => {
+                  e.preventDefault(); // Evita que se recargue la página
+                  const section = document.getElementById("profesionales");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+              >
+                Conócenos
+              </a>
+            </li>
           </ul>
           <div className="nav__buttons">
             <a href="#" className="nav__button--login" onClick={handleLoginClick}>Iniciar sesión</a>
             <a href="#" className="nav__button--register" onClick={handleRegisterClick}>Registrarse</a>
           </div>
-          <div>
-            <img src="./images/fondo.jpg" alt="Imagen" className="nav__img" />
-          </div>
         </nav>
+
+        <div id="inicio">
+          <img src="./images/fondo.jpg" alt="Imagen" className="nav__img" />
+        </div>
         <section className="hero__container container">
           <h1 className="hero__title">Bienvenido a un espacio de apoyo y comprensión</h1>
           <p className="hero__paragraph">
@@ -448,7 +532,7 @@ const PrincipalPage: React.FC = () => {
 
 
       <main>
-        <section className="about">
+        <section id="sobre-nosotros" className="about">
           <h2 className="subtitle">¿Quiénes somos?</h2>
           <p className="about__paragraph">
             En la Unidad de Salud Mental Aurea, somos un equipo de profesionales dedicados a proporcionar un espacio seguro y de apoyo para el bienestar emocional y psicológico de nuestros pacientes. Entendemos que la salud mental es tan crucial como la salud física, y trabajamos con compromiso y empatía para acompañarte en tu proceso de crecimiento y recuperación.
@@ -471,7 +555,7 @@ const PrincipalPage: React.FC = () => {
           </div>
         </section>
 
-        <section className="knowledge">
+        <section id="services" className="knowledge">
           <div className="knowledge__container container">
             <div className="knowledge__content">
               <div className="knowledge__texts">
@@ -486,7 +570,7 @@ const PrincipalPage: React.FC = () => {
           </div>
         </section>
 
-        <section className="professionals__section">
+        <section id="profesionales" className="professionals__section">
           <h2 className="professionals__title">Conoce a Nuestros Profesionales</h2>
           <Slider {...settings}>
             {professionals.map((professional) => (
