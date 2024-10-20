@@ -54,6 +54,7 @@ export interface Cita {
     apellidoDoctor: string;       
     nombreServicio: string;      
 }
+
 export interface CitaDoctor{
     idCita: number;            
     idDocCC: number;          
@@ -69,7 +70,37 @@ export interface CitaDoctor{
     nombreServicio: string;
 }
 
+export interface Facturas {
+    montoTotal: any;
+    idFactura: number;
+    idCita:number; 
+    estadoFE:string;
+    idColilla_Pago:number; 
+    idAutorizacion_Medica:number; 
+    idOrden_Medica:number;
+    servicioPago: string;
+}
 
+export interface UserPacient {
+    _id: string;             // Asumido como el ID del usuario
+    username: number;       // Corresponde a CC
+    name: string;           // Corresponde a nombreUsuario
+    lastName: string;       // Corresponde a apellidoUsuario
+    email: string;          // Corresponde a emailUsuario
+    password: string;       // Corresponde a pwdUsuario
+    status: number;         // Corresponde a estadoUsuario
+    direccion: string;
+    phone: number;
+}
+
+export interface pagoDebito {
+    numeroT: number;
+    nombreApellido: string;
+    fechaVencimiento: Date;
+    codSeguridad: number;
+    tipoDoc: string;
+    numeroDoc: number;
+}
 
 
 export interface AccessTokenResponse {

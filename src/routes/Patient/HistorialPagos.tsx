@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { API_URL } from "../../auth/authConstants";
 import Sidebar from '../../components/sidebar';
-
-interface Payment {
-  patientId: string;
-  date: string;
-  amount: number;
-  method: string;
-}
+import { useAuth } from '../../auth/AuthProvider';
+import type { Facturas } from "../../types/types";
+import { Button } from '@mui/material';
 
 const HistorialPagos = () => {
+  const auth = useAuth();
+  const [facturas, setFacturas] = useState<Facturas[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const [formData, setFormData] = useState({
     patientId: '',
     date: ''
   });
-  const [payments, setPayments] = useState<Payment[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -37,8 +36,8 @@ const HistorialPagos = () => {
         throw new Error('Error al obtener el historial de pagos');
       }
 
-      const data: Payment[] = await response.json();
-      setPayments(data);
+      const data: Facturas[] = await response.json();
+      setFacturas(data);
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -46,24 +45,41 @@ const HistorialPagos = () => {
     }
   };
 
+    // Facturas pendientes
+    const fetchPagos = async () => {
+      try {
+        const response = await fetch(`${API_URL}/Pacient/HistorialPagos/${auth.getUser()?.username}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth.getAccessToken()}`,
+                },
+        });
+        const data = await response.json();
+            if (response.ok) {
+                setFacturas(data.body.data);
+            } else {
+                setErrorMessage(data.error || 'Error al cargar las facturas');
+            }
+      } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Ocurrió un error al cargar las facturas');
+      }
+    };
+
+    useEffect(() => {
+        fetchPagos();
+    }, []);
+
   return (
     <>
       <Sidebar />
-      <div className="main-content">
+      <div className="calendar-container">
+
         <h1>Historial de Pagos</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>ID Paciente:</label>
-            <input
-              type="text"
-              name="patientId"
-              value={formData.patientId}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Fecha (Opcional):</label>
+            <label>Buscar por Fecha:</label>
             <input
               type="date"
               name="date"
@@ -78,29 +94,31 @@ const HistorialPagos = () => {
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <h2>Pagos Realizados</h2>
-        {payments.length > 0 ? (
+        {facturas.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>ID Paciente</th>
-                <th>Fecha de Pago</th>
-                <th>Monto</th>
-                <th>Método de Pago</th>
+                <th>ID Factura</th>
+                <th>ID Cita</th>
+                <th>Servicio</th>
+                <th>Estado</th>
               </tr>
             </thead>
             <tbody>
-              {payments.map((payment, index) => (
+              {facturas.map((factura: Facturas, index) => (
                 <tr key={index}>
-                  <td>{payment.patientId}</td>
-                  <td>{payment.date}</td>
-                  <td>{payment.amount}</td>
-                  <td>{payment.method}</td>
+                  <td>{factura.idFactura}</td>
+                  <td>{factura.idCita}</td>
+                  <td>{factura.servicioPago}</td>
+                  <td>{factura.estadoFE}</td>
+                  <td><Button> VER </Button></td>
                 </tr>
               ))}
             </tbody>
           </table>
+
         ) : (
-          <p>No se encontraron pagos</p>
+          <p>No se encontraron facturas a nombre del Paciente</p>
         )}
       </div>
     </>

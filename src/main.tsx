@@ -15,6 +15,10 @@ import ActualizarDatos from "./routes/Patient/ActualizarDatos.tsx";
 import FacturasPendientes from "./routes/Patient/FacturasPendientes.tsx";
 import CitasPaciente from "./routes/Patient/Citas.tsx";
 import EditarCita from "./routes/Patient/EditarCita.tsx";
+import FacturaElectronica from "./routes/FacturaElectronica.tsx";
+import PasarelaPago from "./routes/Patient/PasarelaPago.tsx";
+
+
 
 
 // Rutas de Doctor
@@ -44,14 +48,57 @@ const router = createBrowserRouter([
     path: "/",
     element: <PrincipalPage />,
   },
-  
+  {
+    path: "/Patient/dashboard",
+    element: <Dashboard />,
+  },
+  // {
+  //   path: "/orden-medica",
+  //   element: <OrdenMedica />,
+  // },
+  {
+    path: "/patient/calendar",
+    element: <Calendar />,
+  },
+  {
+    path: "/patient/citas",
+    element: <CitasPaciente />,
+  },
+  {
+    path: "/patient/editar-cita/:appointmentId", // Nueva ruta para EditarCita
+    element: <EditarCita />,
+  },
+  {
+    path: "/patient/historial-medico",
+    element: <HistorialMedico />,
+  },
+  {
+    path: "/patient/historial-pagos",
+    element: <HistorialPagos />,
+  },
+  {
+    path: "/patient/actualizar-datos",
+    element: <ActualizarDatos />,
+  },
+  {
+    path: "/patient/facturas-pendientes",
+    element: <FacturasPendientes />,
+  },
+  {
+    path: "/facturaElectronica",
+    element: <FacturaElectronica />,
+  },
+  {
+    path: "/patient/pasarelaPago",
+    element: <PasarelaPago />,
+  },
 
   // Rutas protegidas para pacientes (roleId = 4)
   {
     path: "/",
     element: <ProtectedRoute roleId={4} />,
     children: [
-      {
+      /*{
         path: "/Patient/dashboard",
         element: <Dashboard />,
       },
@@ -86,7 +133,7 @@ const router = createBrowserRouter([
       {
         path: "/patient/facturas-pendientes",
         element: <FacturasPendientes />,
-      },
+      },*/
     ],
   },
 
