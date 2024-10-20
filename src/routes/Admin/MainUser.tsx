@@ -272,7 +272,7 @@ const UserRegistrationPage: React.FC = () => {
             <h4>
               Bienvenido {auth.getUser()?.name ?? ""}, usted es {getUserType(auth.getUser()?.roleId ?? 0)} con número de identificación {auth.getUser()?.username ?? ""}
             </h4>
-            <button onClick={() => { resetForm(); setModalOpen(true); }}>Registrar Usuario</button>
+            <Button variant="contained" onClick={() => { resetForm(); setModalOpen(true); }}>Registrar Usuario</Button>
           </div>
 
           <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -307,6 +307,7 @@ const UserRegistrationPage: React.FC = () => {
                             style={{
                               backgroundColor: user.estadoUsuario === 1 ? '#80b929' : '#d9534f',
                               color: '#fff',
+                              width: 100
                             }}
                             onClick={() => toggleUserState(user.CC)}
                           >

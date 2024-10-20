@@ -3,12 +3,15 @@ import { useAuth } from "../auth/AuthProvider";
 import { API_URL } from "../auth/authConstants";
 import '../routes/Patient/dashboard.css'
 import './navbar.css'
+import {  
+    Button  
+  } from '@mui/material';
 
 
 const Sidebar: React.FC = () => {
     const auth = useAuth();
 
-    async function handleSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
+    async function handleSignOut(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         const refreshToken = auth.getRefreshToken();
 
@@ -33,7 +36,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <div className="sidebar">
-            <a className="logout-button" onClick={handleSignOut}>Cerrar sesión</a>
+            <Button variant="contained" onClick={handleSignOut}>Cerrar sesión</Button>
             <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
             <h2>Paciente</h2>
             <ul>
