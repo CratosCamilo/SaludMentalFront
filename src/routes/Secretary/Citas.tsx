@@ -46,7 +46,7 @@ const CitasOperario: React.FC = () => {
     const auth = useAuth();
     const [citas, setCitas] = useState<Cita[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const navigate = useNavigate(); // Asegúrate de que esto esté definido
+    const navigate = useNavigate(); 
     // Cargar citas al cargar la página
     const fetchCitas = async () => {
         try {

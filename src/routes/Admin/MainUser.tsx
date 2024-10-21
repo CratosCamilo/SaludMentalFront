@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/sidebar';
+import Sidebar from '../../components/sidebarAdmin';
 import { useAuth } from '../../auth/AuthProvider';
 import type { UserAdmin } from "../../types/types";
 import { API_URL } from '../../auth/authConstants';

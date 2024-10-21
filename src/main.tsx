@@ -11,12 +11,12 @@ import Dashboard from "./routes/Patient/dashboard.tsx";
 import Calendar from "./routes/Patient/calendar.tsx";
 import HistorialMedico from "./routes/Patient/HistorialMedico.tsx";
 import HistorialPagos from "./routes/Patient/HistorialPagos.tsx";
-import ActualizarDatos from "./routes/Patient/ActualizarDatos.tsx";
+// import ActualizarDatos from "./routes/Patient/ActualizarDatos.tsx";
 import FacturasPendientes from "./routes/Patient/FacturasPendientes.tsx";
 import CitasPaciente from "./routes/Patient/Citas.tsx";
 import EditarCita from "./routes/Patient/EditarCita.tsx";
-import FacturaElectronica from "./routes/FacturaElectronica.tsx";
-import PasarelaPago from "./routes/Patient/PasarelaPago.tsx";
+// import FacturaElectronica from "./routes/FacturaElectronica.tsx";
+// import PasarelaPago from "./routes/Patient/PasarelaPago.tsx";
 
 
 
@@ -25,6 +25,7 @@ import PasarelaPago from "./routes/Patient/PasarelaPago.tsx";
 import Citas from "./routes/Doctor/Citas.tsx";
 import DashboardD from "./routes/Doctor/dashboard.tsx";
 import Pacientes from "./routes/Doctor/pacientes.tsx";
+import HistoriaMedicaDoctor from "./routes/Doctor/HistoriaMedica.tsx";
 
 // Rutas de Admin
 import DashboardA from "./routes/Admin/MainUser.tsx";
@@ -48,57 +49,57 @@ const router = createBrowserRouter([
     path: "/",
     element: <PrincipalPage />,
   },
-  {
-    path: "/Patient/dashboard",
-    element: <Dashboard />,
-  },
   // {
-  //   path: "/orden-medica",
-  //   element: <OrdenMedica />,
+  //   path: "/Patient/dashboard",
+  //   element: <Dashboard />,
   // },
-  {
-    path: "/patient/calendar",
-    element: <Calendar />,
-  },
-  {
-    path: "/patient/citas",
-    element: <CitasPaciente />,
-  },
-  {
-    path: "/patient/editar-cita/:appointmentId", // Nueva ruta para EditarCita
-    element: <EditarCita />,
-  },
-  {
-    path: "/patient/historial-medico",
-    element: <HistorialMedico />,
-  },
-  {
-    path: "/patient/historial-pagos",
-    element: <HistorialPagos />,
-  },
-  {
-    path: "/patient/actualizar-datos",
-    element: <ActualizarDatos />,
-  },
-  {
-    path: "/patient/facturas-pendientes",
-    element: <FacturasPendientes />,
-  },
-  {
-    path: "/facturaElectronica",
-    element: <FacturaElectronica />,
-  },
-  {
-    path: "/patient/pasarelaPago",
-    element: <PasarelaPago />,
-  },
+  // // {
+  // //   path: "/orden-medica",
+  // //   element: <OrdenMedica />,
+  // // },
+  // {
+  //   path: "/patient/calendar",
+  //   element: <Calendar />,
+  // },
+  // {
+  //   path: "/patient/citas",
+  //   element: <CitasPaciente />,
+  // },
+  // {
+  //   path: "/patient/editar-cita/:appointmentId", // Nueva ruta para EditarCita
+  //   element: <EditarCita />,
+  // },
+  // {
+  //   path: "/patient/historial-medico",
+  //   element: <HistorialMedico />,
+  // },
+  // {
+  //   path: "/patient/historial-pagos",
+  //   element: <HistorialPagos />,
+  // },
+  // {
+  //   path: "/patient/actualizar-datos",
+  //   element: <ActualizarDatos />,
+  // },
+  // {
+  //   path: "/patient/facturas-pendientes",
+  //   element: <FacturasPendientes />,
+  // },
+  // {
+  //   path: "/facturaElectronica",
+  //   element: <FacturaElectronica />,
+  // },
+  // {
+  //   path: "/patient/pasarelaPago",
+  //   element: <PasarelaPago />,
+  // },
 
   // Rutas protegidas para pacientes (roleId = 4)
   {
     path: "/",
     element: <ProtectedRoute roleId={4} />,
     children: [
-      /*{
+      {
         path: "/Patient/dashboard",
         element: <Dashboard />,
       },
@@ -126,14 +127,14 @@ const router = createBrowserRouter([
         path: "/patient/historial-pagos",
         element: <HistorialPagos />,
       },
-      {
-        path: "/patient/actualizar-datos",
-        element: <ActualizarDatos />,
-      },
+      // {
+      //   path: "/patient/actualizar-datos",
+      //   element: <ActualizarDatos />,
+      // },
       {
         path: "/patient/facturas-pendientes",
         element: <FacturasPendientes />,
-      },*/
+      },
     ],
   },
 
@@ -153,6 +154,10 @@ const router = createBrowserRouter([
       {
         path: "/Doctor/pacientes",
         element: <Pacientes />,
+      },
+      {
+        path: "/Doctor/atender-cita/:idCita/:idUsuarioCC", 
+        element: <HistoriaMedicaDoctor />,
       },
     ],
   },

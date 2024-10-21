@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { API_URL } from "../../auth/authConstants";
 import Sidebar from '../../components/sidebar';
 import { useAuth } from '../../auth/AuthProvider';
@@ -8,12 +8,12 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
 
 const FacturasPendientes = () => {
   const auth = useAuth();
-  const [facturas, setFacturas] = useState<Facturas[]>([]);
+  const [, setFacturas] = useState<Facturas[]>([]);
   const [selectedFactura, setSelectedFactura] = useState<any>(null); // Cambia `any` al tipo adecuado para tus facturas
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [, setErrorMessage] = useState<string>('');
   //const [selectedFactura, setSelectedFactura] = useState<Facturas | null>(null); // Estado para la factura seleccionada
   const [open, setOpen] = useState(false); // Estado para controlar el modal
-  const [pagoRealizado, setPagoRealizado] = useState(false); // Estado para simular el pago
+  const [, setPagoRealizado] = useState(false); // Estado para simular el pago
   const [metodoPago, setMetodoPago] = useState(''); // Estado para almacenar el método de pago
   const navigate = useNavigate();
 
@@ -45,10 +45,10 @@ const FacturasPendientes = () => {
         fetchFacturas();
     }, []);
 
-    const handleOpen = (factura: Facturas) => {
-      setSelectedFactura(factura);
-      setOpen(true);
-    };
+    // const handleOpen = (factura: Facturas) => {
+    //   setSelectedFactura(factura);
+    //   setOpen(true);
+    // };
   
     
     const handleClose = () => {

@@ -1,17 +1,12 @@
 import React from 'react';
 import { useAuth } from "../auth/AuthProvider";
 import { API_URL } from "../auth/authConstants";
-import '../routes/Patient/dashboard.css'
-import './navbar.css'
-import {  
-    Button  
-  } from '@mui/material';
 
 
-const Sidebar: React.FC = () => {
+const SidebarAdmin: React.FC = () => {
     const auth = useAuth();
 
-    async function handleSignOut(e: React.MouseEvent<HTMLButtonElement>) {
+    async function handleSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
         const refreshToken = auth.getRefreshToken();
 
@@ -36,19 +31,17 @@ const Sidebar: React.FC = () => {
 
     return (
         <div className="sidebar">
-            <Button variant="contained" onClick={handleSignOut}>Cerrar sesión</Button>
+            <a className="logout-button"  onClick={handleSignOut}>Cerrar sesión</a>
+            
             <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
-            <h2>Paciente</h2>
+            <h2>Admin</h2>
             <ul>
-                <li><a href="/patient/dashboard">Incio</a></li>
-                <li><a href="/patient/calendar">Agendar cita</a></li>
-                <li><a href="/patient/citas">Citas</a></li>
-                <li><a href="/patient/historial-medico">Ver mi historial médico</a></li>
-                <li><a href="/patient/historial-pagos">Historial de pagos</a></li>
-                <li><a href="/patient/facturas-pendientes">Facturas pendientes</a></li>
+                
+                <li><a href="/admin/dashboard">Usuarios</a></li>
+                
             </ul>
         </div>
     );
 };
 
-export default Sidebar;
+export default SidebarAdmin;

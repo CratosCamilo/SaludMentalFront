@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 const HistorialPagos = () => {
   const auth = useAuth();
   const [facturas, setFacturas] = useState<Facturas[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [, setErrorMessage] = useState<string>('');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

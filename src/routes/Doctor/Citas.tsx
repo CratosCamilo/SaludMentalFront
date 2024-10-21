@@ -5,6 +5,7 @@ import Sidebar from '../../components/sidebarDoctor';
 import type { CitaDoctor } from "../../types/types";
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 
 import {
     Table,
@@ -22,7 +23,7 @@ const Citas: React.FC = () => {
     const auth = useAuth();
     const [citas, setCitas] = useState<CitaDoctor[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
-
+    const navigate = useNavigate();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page2, setPage2] = React.useState(0);
@@ -94,7 +95,9 @@ const Citas: React.FC = () => {
         const date = convertTimeToDate(time); // Convierte la hora a un objeto Date
         return format(date, 'hh:mm a'); // Formato: 02:30 PM
     };
-    
+
+
+
     return (
         <>
             <Sidebar />
@@ -153,7 +156,13 @@ const Citas: React.FC = () => {
                                                     >
                                                         {estadoCita}
                                                     </Button></TableCell>
-                                                    <TableCell> <Button variant="outlined">Atender</Button> </TableCell>
+                                                    <TableCell> <Button
+                                                        variant="outlined"
+                                                        onClick={() => navigate(`/Doctor/atender-cita/${cita.idCita}/${cita.idUsuarioCC}`)}
+                                                    >
+                                                        Atender
+                                                    </Button>
+                                                    </TableCell>
                                                 </TableRow>
                                             )
                                         })}
@@ -231,7 +240,7 @@ const Citas: React.FC = () => {
                                                     >
                                                         {estadoCita}
                                                     </Button></TableCell>
-                                                    <TableCell> <Button variant="outlined">Atender</Button> </TableCell>
+                                                    <TableCell> <Button variant="outlined" onClick={() => alert("Solo se pueden atender citas pendientes")}>Atender</Button> </TableCell>
                                                 </TableRow>
                                             )
                                         })}

@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useAuth } from "../../auth/AuthProvider"; // Esto sigue siendo necesario si usas autenticación
 import Sidebar from '../../components/sidebar'; // Asumo que tu Sidebar ya está hecho
 import './dashboard.css'; // Aquí puedes agregar tu CSS existente
+import { API_URL } from '../../auth/authConstants';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 export default function Dashboard() {
     const auth = useAuth();
@@ -24,16 +27,36 @@ export default function Dashboard() {
     };
 
     // Agenda de Citas
-    const [citas, setCitas] = useState<{ id: number, fecha: string, hora: string, medico: string }[]>([]);
+    const [citas, setCitas] = useState<{ id: number, dia: Date, hora: string, nombreDoctor: string, apellidoDoctor: string, estadoCita: number }[]>([]);
+    const [, setErrorMessage] = useState<string>('');
+    const fetchCitas = async () => {
+        try {
+            const response = await fetch(`${API_URL}/Pacient/citas/${auth.getUser()?.username}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth.getAccessToken()}`,
+                },
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setCitas(data.body.data);
+            } else {
+                setErrorMessage(data.error || 'Error al cargar las citas');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Ocurrió un error al cargar las citas');
+        }
+    };
 
     useEffect(() => {
-        // Simula llamada a API para obtener las citas
-        const citasSimuladas = [
-            { id: 1, fecha: '2024-09-30', hora: '10:00 AM', medico: 'Dr. Juan Perez' },
-            { id: 2, fecha: '2024-10-05', hora: '02:00 PM', medico: 'Dra. Ana López' }
-        ];
-        setCitas(citasSimuladas);
+        fetchCitas();
     }, []);
+    const formattedDate = (date: Date | null) => {
+        if (!date) return 'Fecha no disponible';
+        return format(new Date(date), 'dd \'de\' MMMM \'de\' yyyy', { locale: es }); // Formato: 02 de octubre de 2024
+    };
 
     return (
         <>
@@ -53,8 +76,8 @@ export default function Dashboard() {
                         <p>¿Cómo te sientes hoy?</p>
                         <div className="estado-animo">
                             {[1, 2, 3, 4, 5].map((nivel) => (
-                                <button 
-                                    key={nivel} 
+                                <button
+                                    key={nivel}
                                     className={`estado-btn ${estadoAnimo === nivel ? 'activo' : ''}`}
                                     onClick={() => cambiarEstadoAnimo(nivel)}
                                 >
@@ -73,14 +96,33 @@ export default function Dashboard() {
                     <div className="agenda-citas">
                         <h3>Próximas Citas</h3>
                         <ul>
-                            {citas.map((cita) => (
-                                <li key={cita.id}>
-                                    <p><strong>Fecha:</strong> {cita.fecha}</p>
-                                    <p><strong>Hora:</strong> {cita.hora}</p>
-                                    <p><strong>Médico:</strong> {cita.medico}</p>
-                                </li>
-                            ))}
+                            {citas
+                                .filter(cita => {
+                                    const fechaCita = new Date(cita.dia); // Fecha de la cita
+                                    const horaCita = cita.hora.split(':'); // Divide la hora en [hh, mm, ss]
+                                    const fechaHoraCita = new Date(fechaCita); // Crea una nueva fecha con la misma fecha de la cita
+                                    fechaHoraCita.setHours(Number(horaCita[0]), Number(horaCita[1]), 0, 0); // Ajusta la hora, minutos y segundos
+
+                                    // Verifica que la cita esté activa y que la fecha y hora de la cita sean futuras o iguales a ahora
+                                    return cita.estadoCita === 1 && fechaHoraCita >= new Date();
+                                })
+                                .map((cita) => (
+                                    <li key={cita.id}>
+                                        <p><strong>Fecha:</strong> {formattedDate(cita.dia)}</p>
+                                        <p><strong>Hora:</strong> {cita.hora}</p>
+                                        <p><strong>Médico:</strong> {cita.nombreDoctor + " " + cita.apellidoDoctor}</p>
+                                    </li>
+                                ))}
                         </ul>
+                        {citas.filter(cita => {
+                            const fechaCita = new Date(cita.dia);
+                            const horaCita = cita.hora.split(':');
+                            const fechaHoraCita = new Date(fechaCita);
+                            fechaHoraCita.setHours(Number(horaCita[0]), Number(horaCita[1]), 0, 0);
+                            return cita.estadoCita === 1 && fechaHoraCita >= new Date();
+                        }).length === 0 && (
+                                <p>No tiene citas pendientes.</p> // Mensaje si no hay citas
+                            )}
                     </div>
                 </section>
             </div>
