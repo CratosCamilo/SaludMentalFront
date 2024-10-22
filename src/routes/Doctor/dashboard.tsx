@@ -10,7 +10,7 @@ const InicioD: React.FC = () => {
     const auth = useAuth();
 
 
-    var citasPendientes = 0;
+    
     var citasHoy = 0;
 
 
@@ -51,8 +51,7 @@ const InicioD: React.FC = () => {
             const fechaHoraCita = new Date(fechaCita); // Crea una nueva fecha con la misma fecha de la cita
             fechaHoraCita.setHours(Number(horaCita[0]), Number(horaCita[1]), 0, 0); // Ajusta la hora, minutos y segundos
 
-            // Verifica que la cita esté activa y que la fecha y hora de la cita sean futuras o iguales a ahora
-            citasPendientes = 1
+           
         });
     }, []);
 

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Button, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Sidebar from '../../components/sidebar';
 import { API_URL } from "../../auth/authConstants";
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
@@ -23,8 +21,8 @@ const HistorialMedico = () => {
     date: null as Date | null
   });
   
-  const [horaRevision, setHoraRevision] = useState('');
-    const [historiaMedica, setHistoriaMedica] = useState({
+  
+    const [historiaMedica, ] = useState({
         tipoSangre: '',
         genero: '',
         fecha_Nac: '',
@@ -46,17 +44,14 @@ const HistorialMedico = () => {
         familiares: '',
         conclusion: ''
     });
-  const [history, setHistory] = useState<HistorialMedicoItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [, setHistory] = useState<HistorialMedicoItem[]>([]);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState('');
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleDateChange = (date: Date | null) => {
-    setFormData({ ...formData, date });
-  };
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -138,40 +138,40 @@ const UserRegistrationPage: React.FC = () => {
     setIsEditMode(false);
   };
 
-  const handleEdit = async (NumeroCC: number) => {
-    try {
-      const response = await fetch(`${API_URL}/Admin/fetch-user/${NumeroCC}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.getAccessToken()}`,
-        }
-      });
+  // const handleEdit = async (NumeroCC: number) => {
+  //   try {
+  //     const response = await fetch(`${API_URL}/Admin/fetch-user/${NumeroCC}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${auth.getAccessToken()}`,
+  //       }
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (response.ok) {
-        const userToEdit = data.body.data;
-        setNombre(userToEdit.nombreUsuario);
-        setApellido(userToEdit.apellidoUsuario);
-        setEmail(userToEdit.emailUsuario);
-        setPassword(userToEdit.pwdUsuario);
-        setNumeroCC(userToEdit.CC);
-        setEstadoUsuario(userToEdit.estadoUsuario);
-        setRol(userToEdit.idRol);
-        setTipoUsuario(userToEdit.idTipoPaciente);
-        setHojaVida(userToEdit.idHoja_Vida);
-        setEditingUserId(NumeroCC); // Establecer el usuario que está siendo editado
-        setIsEditMode(true);
-        setModalOpen(true); // Abrir modal para editar
-      } else {
-        setErrorMessage(data.error || 'Error al obtener los datos del usuario');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setErrorMessage('Ocurrió un error al obtener los datos del usuario');
-    }
-  };
+  //     if (response.ok) {
+  //       const userToEdit = data.body.data;
+  //       setNombre(userToEdit.nombreUsuario);
+  //       setApellido(userToEdit.apellidoUsuario);
+  //       setEmail(userToEdit.emailUsuario);
+  //       setPassword(userToEdit.pwdUsuario);
+  //       setNumeroCC(userToEdit.CC);
+  //       setEstadoUsuario(userToEdit.estadoUsuario);
+  //       setRol(userToEdit.idRol);
+  //       setTipoUsuario(userToEdit.idTipoPaciente);
+  //       setHojaVida(userToEdit.idHoja_Vida);
+  //       setEditingUserId(NumeroCC); // Establecer el usuario que está siendo editado
+  //       setIsEditMode(true);
+  //       setModalOpen(true); // Abrir modal para editar
+  //     } else {
+  //       setErrorMessage(data.error || 'Error al obtener los datos del usuario');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     setErrorMessage('Ocurrió un error al obtener los datos del usuario');
+  //   }
+  // };
 
   const handleSubmitRegister = async () => {
     if (editingUserId !== null) {
@@ -316,7 +316,7 @@ const UserRegistrationPage: React.FC = () => {
                             {user.estadoUsuario === 1 ? 'Activo' : 'Inactivo'}
                           </Button>
                         </TableCell>
-                        
+
                       </TableRow>
                     ))}
                 </TableBody>
