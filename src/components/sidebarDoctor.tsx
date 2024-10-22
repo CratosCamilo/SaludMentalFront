@@ -33,7 +33,7 @@ const SidebarDoctor: React.FC = () => {
         <div className="sidebar">
             <a className="logout-button"  onClick={handleSignOut}>Cerrar sesión</a>
             
-            <img src="../../images/logo3.png" alt="Descripción de la imagen" className="image" />
+            <img src="../../../images/logo3.png" alt="Descripción de la imagen" className="image" />
             <h2>Médico</h2>
             <ul>
                 <li><a href="/Doctor/dashboard">Inicio</a></li>
